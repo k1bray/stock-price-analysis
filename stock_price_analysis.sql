@@ -139,6 +139,22 @@ SELECT
     ROUND(AVG(CAST([Close] AS FLOAT)) OVER(ORDER BY Date ROWS BETWEEN 29 PRECEDING AND CURRENT ROW), 2) AS 'moving_avg_30'
 FROM netflix_stock_price;
 
+
+SELECT
+    CAST([Date] AS DATE) AS DateFormatted,
+    ROUND([Close], 2) AS 'close',
+    ROUND(AVG(CAST([Close] AS FLOAT)) OVER(ORDER BY Date ROWS BETWEEN 29 PRECEDING AND CURRENT ROW), 2) AS 'moving_avg_30'
+FROM SPX
+WHERE [Date] > '2002-05-22'     -- limiting time period to match NFLX data;
+
+
+SELECT
+    CAST([Date] AS DATE) AS DateFormatted,
+    ROUND([Close], 2) AS 'close',
+    ROUND(AVG(CAST([Close] AS FLOAT)) OVER(ORDER BY Date ROWS BETWEEN 29 PRECEDING AND CURRENT ROW), 2) AS 'moving_avg_30'
+FROM spy
+WHERE [Date] > '2002-05-22'     -- limiting time period to match NFLX data;
+
 -- Volatility Analysis
 
 SELECT [Date], 
@@ -146,15 +162,34 @@ SELECT [Date],
        STDEV(CAST([Close] AS FLOAT)) OVER(ORDER BY Date ROWS BETWEEN 29 PRECEDING AND CURRENT ROW) AS Volatility_30
 FROM netflix_stock_price;
 
+
+SELECT 
+    CAST([Date] AS DATE) AS DateFormatted,
+    ROUND([Close], 2) AS [close],
+    STDEV(CAST([Close] AS FLOAT)) OVER(ORDER BY Date ROWS BETWEEN 29 PRECEDING AND CURRENT ROW) AS Volatility_30
+FROM SPX;
+
+
+SELECT 
+    CAST([Date] AS DATE) AS DateFormatted,
+    ROUND([Close], 2) AS [close],
+    STDEV(CAST([Close] AS FLOAT)) OVER(ORDER BY Date ROWS BETWEEN 29 PRECEDING AND CURRENT ROW) AS Volatility_30
+FROM spy;
+
 /*
 Comparative Analysis
 If you have data for other stocks or indices, you can compare Netflix’s performance.
 */
 -- Join with Another Stock Data
 
-SELECT n.Date, n.Close AS Netflix_Close, o.Close AS Other_Stock_Close
-FROM netflix_stock_price n
-JOIN other_stock_data o ON n.Date = o.Date;
+SELECT 
+    n.[Date], 
+    ROUND(n.[Close], 2) AS netflix_close, 
+    ROUND(s.[Close], 2) AS spy_close
+FROM 
+    netflix_stock_price n
+    JOIN spy s 
+        ON n.[Date] = s.[Date];
 
 /*
 Data Export for Visualization
@@ -235,3 +270,91 @@ Presentation: Prepare a PowerPoint presentation summarizing your analysis.
 By leveraging SQL for data processing and Excel or Power BI for visualization, you can create a comprehensive 
 data analysis project showcasing your SQL skills and your ability to interpret and visualize data effectively.
 */
+
+
+
+/*
+Calculating the yearly return for each underlying
+
+*********A point to note is that the return for 2002 is only based on a partial year
+*/
+
+--NFLX
+WITH YearlyPrices AS
+    (
+        SELECT
+            YEAR([Date]) AS Year,
+            MIN([Date]) AS StartDate,
+            MAX([Date]) AS EndDate
+        FROM
+            netflix_stock_price
+        GROUP BY
+        YEAR([Date])
+    ),
+    StartEndPrices
+    AS
+    (
+        SELECT
+            yp.Year,
+            CAST(nsp_start.[Close] AS DECIMAL(18, 2)) AS StartPrice,
+            CAST(nsp_end.[Close] AS DECIMAL(18, 2)) AS EndPrice
+        FROM
+            YearlyPrices yp
+            JOIN
+            netflix_stock_price nsp_start
+            ON yp.StartDate = nsp_start.[Date]
+            JOIN
+            netflix_stock_price nsp_end
+            ON yp.EndDate = nsp_end.[Date]
+    )
+SELECT
+    Year,
+    StartPrice,
+    EndPrice,
+    RTRIM(CAST(ROUND((((EndPrice - StartPrice) / StartPrice) * 100), 1) AS DECIMAL(18, 1))) AS PercentReturn
+FROM
+    StartEndPrices
+ORDER BY
+    Year;
+
+
+--SPY
+WITH
+    YearlyPrices
+    AS
+    (
+        SELECT
+            YEAR([Date]) AS Year,
+            MIN([Date]) AS StartDate,
+            MAX([Date]) AS EndDate
+        FROM
+            spy
+        WHERE [Date] > '2002-05-22'
+        GROUP BY
+        YEAR([Date])
+    ),
+    StartEndPrices
+    AS
+    (
+        SELECT
+            yp.Year,
+            CAST(spy_start.[Close] AS DECIMAL(18, 2)) AS StartPrice,
+            CAST(spy_end.[Close] AS DECIMAL(18, 2)) AS EndPrice
+        FROM
+            YearlyPrices yp
+            JOIN
+            spy spy_start
+            ON yp.StartDate = spy_start.[Date]
+            JOIN
+            spy spy_end
+            ON yp.EndDate = spy_end.[Date]
+    )
+SELECT
+    Year,
+    StartPrice,
+    EndPrice,
+    RTRIM(CAST(ROUND((((EndPrice - StartPrice) / StartPrice) * 100), 1) AS DECIMAL(18, 1))) AS PercentReturn
+FROM
+    StartEndPrices
+ORDER BY
+    Year;
