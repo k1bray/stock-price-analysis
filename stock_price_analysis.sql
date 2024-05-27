@@ -15,7 +15,8 @@ First, ensure your data is clean and ready for analysis in SQL Server. You can p
 
 SELECT *                                        -- 0 rows
 FROM netflix_stock_price
-WHERE Date IS NULL 
+WHERE 
+    [Date] IS NULL 
     OR [Open] IS NULL 
     OR [High] IS NULL 
     OR [Low] IS NULL 
@@ -40,8 +41,24 @@ WHERE
     OR [Adj Close] IS NULL
     OR [Volume] IS NULL;
 
+SELECT                                          -- 0 rows         
+    CAST([Date] AS DATE) AS DateFormatted,
+    [Open],
+    [High],
+    [Low],
+    [Close],
+    [Volume]
+FROM spy
+WHERE   
+    [Date] IS NULL
+    OR [Open] IS NULL
+    OR [High] IS NULL
+    OR [Low] IS NULL
+    OR [Close] IS NULL
+    OR [Volume] IS NULL;
+
 -- Remove Duplicate Records
--- 0 rows in both tables
+-- 0 rows in all tables
 
 WITH CTE AS (
     SELECT *, 
@@ -58,6 +75,14 @@ WITH CTE AS (
 )
 DELETE FROM CTE WHERE row_num > 1;
 
+
+WITH CTE AS (
+    SELECT *,
+        ROW_NUMBER() OVER(PARTITION BY Date ORDER BY Date) AS row_num
+    FROM spy
+    )
+DELETE FROM CTE WHERE row_num > 1;
+
 /*
 Exploratory Data Analysis (EDA) Using SQL
 Perform initial analysis using SQL queries.
@@ -66,12 +91,33 @@ Perform initial analysis using SQL queries.
 --Summary Statistics
 
 SELECT 
-    ROUND(AVG(CAST([Open] AS FLOAT)), 2) AS Avg_Open, 
-    ROUND(AVG(CAST([Close] AS FLOAT)), 2) AS Avg_Close, 
-    ROUND(MAX(CAST([High] AS FLOAT)), 2) AS Max_High, 
-    ROUND(MIN(CAST([Low] AS FLOAT)), 2) AS Min_Low, 
-    ROUND(AVG(CAST([Volume] AS FLOAT)), 0) AS Avg_Volume
+    ROUND(AVG(CAST([Open] AS FLOAT)), 2) AS Avg_Open,           -- 140.53
+    ROUND(AVG(CAST([Close] AS FLOAT)), 2) AS Avg_Close,         -- 140.56
+    ROUND(MAX(CAST([High] AS FLOAT)), 2) AS Max_High,           -- 700.99
+    ROUND(MIN(CAST([Low] AS FLOAT)), 2) AS Min_Low,             -- 0.35
+    ROUND(AVG(CAST([Volume] AS FLOAT)), 0) AS Avg_Volume        -- 15694382
 FROM netflix_stock_price;
+
+
+SELECT
+    ROUND(AVG(CAST([Open] AS FLOAT)), 2) AS Avg_Open,           -- 1684.76
+    ROUND(AVG(CAST([Close] AS FLOAT)), 2) AS Avg_Close,         -- 1685.03
+    ROUND(MAX(CAST([High] AS FLOAT)), 2) AS Max_High,           -- 3588.11
+    ROUND(MIN(CAST([Low] AS FLOAT)), 2) AS Min_Low,             -- 666.79
+    ROUND(AVG(CAST([Volume] AS FLOAT)), 0) AS Avg_Volume        -- 3425394710
+FROM SPX
+WHERE [Date] > '2002-05-22'     -- limiting time period to match NFLX data
+;
+
+
+SELECT
+    ROUND(AVG(CAST([Open] AS FLOAT)), 2) AS Avg_Open,           -- 182.92
+    ROUND(AVG(CAST([Close] AS FLOAT)), 2) AS Avg_Close,         -- 182.04
+    ROUND(MAX(CAST([High] AS FLOAT)), 2) AS Max_High,           -- 524.61
+    ROUND(MIN(CAST([Low] AS FLOAT)), 2) AS Min_Low,             -- 50.26
+    ROUND(AVG(CAST([Volume] AS FLOAT)), 0) AS Avg_Volume        -- 118013366
+FROM spy
+WHERE [Date] > '2002-05-22'     -- limiting time period to match NFLX data
 
 -- Time Series Analysis
 
