@@ -2,17 +2,56 @@ USE stock_price_analysis;
 
 EXEC sp_rename 'netflix_stock_price', 'nflx';               -- executed
 
-SELECT * FROM nflx;
+-- DATA PROFILING
 
+-- Initial Data Exploration
+SELECT *
+FROM nflx;
 
-SELECT * FROM spy
+SELECT *
+FROM spy
 WHERE [Date] > '2002-05-22'                     -- limiting time period to match NFLX data;
-;
+
+SELECT *
+FROM INFORMATION_SCHEMA.TABLES;
+
+SELECT *
+FROM INFORMATION_SCHEMA.COLUMNS
+WHERE TABLE_NAME = 'nflx';
+
+SELECT *
+FROM INFORMATION_SCHEMA.COLUMNS
+WHERE TABLE_NAME = 'spy';
+
+-- Descriptive Statistics
+SELECT
+    COUNT(*) AS total_rows,
+    MIN([Date]) AS min_date,
+    MAX([Date]) AS max_date,
+    MIN([Close]) AS min_close,
+    MAX([Close]) AS max_close,
+    ROUND(AVG(CAST([Volume] AS FLOAT)), 0) AS average_volume
+FROM nflx
+WHERE [Date] <= '2024-04-30';
+
+
+SELECT
+    COUNT(*) AS total_rows,
+    MIN(CAST([Date] AS DATE)) AS min_date,
+    MAX(CAST([Date] AS DATE)) AS max_date,
+    MIN([Close]) AS min_close,
+    MAX([Close]) AS max_close,
+    ROUND(AVG(CAST([Volume] AS FLOAT)), 0) AS average_volume
+FROM spy
+WHERE [Date] > '2002-05-22' ;
+
 
 /*
 Data Import and Cleaning
 First, ensure your data is clean and ready for analysis in SQL Server. You can perform various cleaning operations using SQL queries.
 */
+
+
 
 -- Check for Missing Values
 
