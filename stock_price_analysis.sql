@@ -296,16 +296,16 @@ WITH YearlyPrices AS
     (
         SELECT
             yp.Year,
-            CAST(nsp_start.[Close] AS DECIMAL(18, 2)) AS StartPrice,
-            CAST(nsp_end.[Close] AS DECIMAL(18, 2)) AS EndPrice
+            CAST(nflx_start.[Close] AS DECIMAL(18, 2)) AS StartPrice,
+            CAST(nflx_end.[Close] AS DECIMAL(18, 2)) AS EndPrice
         FROM
             YearlyPrices yp
             JOIN
-            netflix_stock_price nsp_start
-            ON yp.StartDate = nsp_start.[Date]
+            netflix_stock_price nflx_start
+                ON yp.StartDate = nflx_start.[Date]
             JOIN
-            netflix_stock_price nsp_end
-            ON yp.EndDate = nsp_end.[Date]
+            netflix_stock_price nflx_end
+                ON yp.EndDate = nflx_end.[Date]
     )
 SELECT
     Year,
@@ -319,9 +319,7 @@ ORDER BY
 
 
 --SPY
-WITH
-    YearlyPrices
-    AS
+WITH YearlyPrices AS
     (
         SELECT
             YEAR([Date]) AS Year,
@@ -344,10 +342,10 @@ WITH
             YearlyPrices yp
             JOIN
             spy spy_start
-            ON yp.StartDate = spy_start.[Date]
+                ON yp.StartDate = spy_start.[Date]
             JOIN
             spy spy_end
-            ON yp.EndDate = spy_end.[Date]
+                ON yp.EndDate = spy_end.[Date]
     )
 SELECT
     Year,
