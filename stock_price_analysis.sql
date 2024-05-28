@@ -313,6 +313,10 @@ ORDER BY
 What day of the week is NFLX/SPY most likely to be up?
 */
 
+/*
+What day of the week is NFLX/SPY most likely to have the highest volume?
+*/
+
 
 /*
 Annual-Monthly trends up/down?
@@ -339,16 +343,42 @@ SELECT ABS(100 / 1.2)
 
 SELECT CAST(100 / 1.2 AS INT)
 
-SELECT 100 DIV 1.2;
 SELECT FLOOR(100 / 1.2) AS WholeNumberResult;
 
 
 
 
+/*
+Start date
+Number of shares for $100
+Cost basis per share (starting close price)
+Cost basis for investment (starting close price * number of shares)
 
+End date
+Sale price per share (ending close price)
+Sale price of investment (ending close price * number of shares)
 
+Difference between sale price of investment and starting price of investment
+*/
 
+SELECT *
+FROM netflix_stock_price;
 
+SELECT TOP 1
+    [Date] AS start_date,                                             -- 2002-05-23
+    ROUND(CAST([Close] AS FLOAT), 2) AS start_per_share_cost_basis         -- 1.20
+FROM netflix_stock_price;
+
+SELECT 
+    FLOOR(100 / 
+    (
+        SELECT TOP 1
+            ROUND(CAST([Close] AS FLOAT), 2) AS start_per_share_cost_basis
+        FROM netflix_stock_price
+    )
+    ) AS number_of_shares           -- 83 shares
+FROM netflix_stock_price
+;
 
 
 
