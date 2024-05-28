@@ -1,10 +1,6 @@
 USE stock_price_analysis;
 
 SELECT * FROM netflix_stock_price;
-SELECT * FROM all_stocks_5yr;
-SELECT * FROM SPX;
-
-
 
 
 SELECT * FROM spy
@@ -28,23 +24,6 @@ WHERE
     OR [Close] IS NULL 
     OR [Volume] IS NULL;
 
-SELECT                                          -- 0 rows         
-    CAST([Date] AS DATE) AS DateFormatted,
-    [Open],
-    [High],
-    [Low],
-    [Close],
-    [Adj Close],
-    [Volume] 
-FROM SPX
-WHERE   
-    [Date] IS NULL
-    OR [Open] IS NULL
-    OR [High] IS NULL
-    OR [Low] IS NULL
-    OR [Close] IS NULL
-    OR [Adj Close] IS NULL
-    OR [Volume] IS NULL;
 
 SELECT                                          -- 0 rows         
     CAST([Date] AS DATE) AS DateFormatted,
@@ -76,14 +55,6 @@ DELETE FROM CTE WHERE row_num > 1;
 WITH CTE AS (
     SELECT *,
         ROW_NUMBER() OVER(PARTITION BY Date ORDER BY Date) AS row_num
-    FROM SPX
-)
-DELETE FROM CTE WHERE row_num > 1;
-
-
-WITH CTE AS (
-    SELECT *,
-        ROW_NUMBER() OVER(PARTITION BY Date ORDER BY Date) AS row_num
     FROM spy
     )
 DELETE FROM CTE WHERE row_num > 1;
@@ -102,17 +73,6 @@ SELECT
     ROUND(MIN(CAST([Low] AS FLOAT)), 2) AS Min_Low,             -- 0.35
     ROUND(AVG(CAST([Volume] AS FLOAT)), 0) AS Avg_Volume        -- 15694382
 FROM netflix_stock_price;
-
-
-SELECT
-    ROUND(AVG(CAST([Open] AS FLOAT)), 2) AS Avg_Open,           -- 1684.76
-    ROUND(AVG(CAST([Close] AS FLOAT)), 2) AS Avg_Close,         -- 1685.03
-    ROUND(MAX(CAST([High] AS FLOAT)), 2) AS Max_High,           -- 3588.11
-    ROUND(MIN(CAST([Low] AS FLOAT)), 2) AS Min_Low,             -- 666.79
-    ROUND(AVG(CAST([Volume] AS FLOAT)), 0) AS Avg_Volume        -- 3425394710
-FROM SPX
-WHERE [Date] > '2002-05-22'     -- limiting time period to match NFLX data
-;
 
 
 SELECT
@@ -149,14 +109,6 @@ SELECT
     CAST([Date] AS DATE) AS DateFormatted,
     ROUND([Close], 2) AS 'close',
     ROUND(AVG(CAST([Close] AS FLOAT)) OVER(ORDER BY Date ROWS BETWEEN 29 PRECEDING AND CURRENT ROW), 2) AS 'moving_avg_30'
-FROM SPX
-WHERE [Date] > '2002-05-22'     -- limiting time period to match NFLX data;
-
-
-SELECT
-    CAST([Date] AS DATE) AS DateFormatted,
-    ROUND([Close], 2) AS 'close',
-    ROUND(AVG(CAST([Close] AS FLOAT)) OVER(ORDER BY Date ROWS BETWEEN 29 PRECEDING AND CURRENT ROW), 2) AS 'moving_avg_30'
 FROM spy
 WHERE [Date] > '2002-05-22'     -- limiting time period to match NFLX data;
 
@@ -166,13 +118,6 @@ SELECT [Date],
        ROUND([Close], 2) AS [close],
        STDEV(CAST([Close] AS FLOAT)) OVER(ORDER BY Date ROWS BETWEEN 29 PRECEDING AND CURRENT ROW) AS Volatility_30
 FROM netflix_stock_price;
-
-
-SELECT 
-    CAST([Date] AS DATE) AS DateFormatted,
-    ROUND([Close], 2) AS [close],
-    STDEV(CAST([Close] AS FLOAT)) OVER(ORDER BY Date ROWS BETWEEN 29 PRECEDING AND CURRENT ROW) AS Volatility_30
-FROM SPX;
 
 
 SELECT 
@@ -372,3 +317,64 @@ What day of the week is NFLX/SPY most likely to be up?
 /*
 Annual-Monthly trends up/down?
 */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SELECT ABS(-243.5)
+
+SELECT ABS(100 / 1.2)
+
+SELECT CAST(100 / 1.2 AS INT)
+
+SELECT 100 DIV 1.2;
+SELECT FLOOR(100 / 1.2) AS WholeNumberResult;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
