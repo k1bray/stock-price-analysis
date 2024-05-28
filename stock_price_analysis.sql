@@ -10,7 +10,7 @@ FROM nflx;
 
 SELECT *
 FROM spy
-WHERE [Date] > '2002-05-22'                     -- limiting time period to match NFLX data;
+WHERE [Date] > '2002-05-22';                     -- limiting time period to match NFLX data
 
 SELECT *
 FROM INFORMATION_SCHEMA.TABLES;
@@ -32,7 +32,7 @@ SELECT
     MAX([Close]) AS max_close,
     ROUND(AVG(CAST([Volume] AS FLOAT)), 0) AS average_volume
 FROM nflx
-WHERE [Date] <= '2024-04-30';
+WHERE [Date] <= '2024-04-30';                   -- limiting time period to match SPY data
 
 
 SELECT
@@ -43,7 +43,7 @@ SELECT
     MAX([Close]) AS max_close,
     ROUND(AVG(CAST([Volume] AS FLOAT)), 0) AS average_volume
 FROM spy
-WHERE [Date] > '2002-05-22' ;
+WHERE [Date] > '2002-05-22' ;                     -- limiting time period to match NFLX data
 
 
 /*
