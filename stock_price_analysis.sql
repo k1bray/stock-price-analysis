@@ -3,8 +3,13 @@ USE stock_price_analysis;
 SELECT * FROM netflix_stock_price;
 SELECT * FROM all_stocks_5yr;
 SELECT * FROM SPX;
-SELECT * FROM spy;
 
+
+
+
+SELECT * FROM spy
+WHERE [Date] > '2002-05-22'     -- limiting time period to match NFLX data;
+;
 
 /*
 Data Import and Cleaning
@@ -356,3 +361,14 @@ FROM
     StartEndPrices
 ORDER BY
     Year;
+
+
+
+/*
+What day of the week is NFLX/SPY most likely to be up?
+*/
+
+
+/*
+Annual-Monthly trends up/down?
+*/
