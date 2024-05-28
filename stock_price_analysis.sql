@@ -1,10 +1,12 @@
 USE stock_price_analysis;
 
-SELECT * FROM netflix_stock_price;
+EXEC sp_rename 'netflix_stock_price', 'nflx';               -- executed
+
+SELECT * FROM nflx;
 
 
 SELECT * FROM spy
-WHERE [Date] > '2002-05-22'     -- limiting time period to match NFLX data;
+WHERE [Date] > '2002-05-22'                     -- limiting time period to match NFLX data;
 ;
 
 /*
@@ -15,7 +17,7 @@ First, ensure your data is clean and ready for analysis in SQL Server. You can p
 -- Check for Missing Values
 
 SELECT *                                        -- 0 rows
-FROM netflix_stock_price
+FROM nflx
 WHERE 
     [Date] IS NULL 
     OR [Open] IS NULL 
@@ -42,12 +44,12 @@ WHERE
     OR [Volume] IS NULL;
 
 -- Remove Duplicate Records
--- 0 rows in all tables
+-- 0 duplicate rows in all tables
 
 WITH CTE AS (
     SELECT *, 
            ROW_NUMBER() OVER(PARTITION BY Date ORDER BY Date) AS row_num
-    FROM netflix_stock_price
+    FROM nflx
 )
 DELETE FROM CTE WHERE row_num > 1;
 
@@ -61,7 +63,7 @@ DELETE FROM CTE WHERE row_num > 1;
 
 /*
 Exploratory Data Analysis (EDA) Using SQL
-Perform initial analysis using SQL queries.
+Perform initial analysis using SQL queries
 */
 
 --Summary Statistics
@@ -72,7 +74,7 @@ SELECT
     ROUND(MAX(CAST([High] AS FLOAT)), 2) AS Max_High,           -- 700.99
     ROUND(MIN(CAST([Low] AS FLOAT)), 2) AS Min_Low,             -- 0.35
     ROUND(AVG(CAST([Volume] AS FLOAT)), 0) AS Avg_Volume        -- 15694382
-FROM netflix_stock_price;
+FROM nflx;
 
 
 SELECT
@@ -89,12 +91,12 @@ WHERE [Date] > '2002-05-22'     -- limiting time period to match NFLX data
 SELECT 
     [Date], 
     ROUND([Close], 2) AS [close] 
-FROM netflix_stock_price
-ORDER BY Date;
+FROM nflx
+ORDER BY [Date];
 
 /*
 Advanced Analysis Using SQL
-Use SQL for more sophisticated analyses.
+Use SQL for more sophisticated analyses
 */
 -- Moving Averages
 
@@ -102,7 +104,7 @@ SELECT
     [Date] AS 'date', 
     ROUND([Close], 2) AS 'close', 
     ROUND(AVG(CAST([Close] AS FLOAT)) OVER(ORDER BY Date ROWS BETWEEN 29 PRECEDING AND CURRENT ROW), 2) AS 'moving_avg_30'
-FROM netflix_stock_price;
+FROM nflx;
 
 
 SELECT
@@ -110,14 +112,15 @@ SELECT
     ROUND([Close], 2) AS 'close',
     ROUND(AVG(CAST([Close] AS FLOAT)) OVER(ORDER BY Date ROWS BETWEEN 29 PRECEDING AND CURRENT ROW), 2) AS 'moving_avg_30'
 FROM spy
-WHERE [Date] > '2002-05-22'     -- limiting time period to match NFLX data;
+WHERE [Date] > '2002-05-22'                         -- limiting time period to match NFLX data;
 
 -- Volatility Analysis
 
-SELECT [Date], 
-       ROUND([Close], 2) AS [close],
-       STDEV(CAST([Close] AS FLOAT)) OVER(ORDER BY Date ROWS BETWEEN 29 PRECEDING AND CURRENT ROW) AS Volatility_30
-FROM netflix_stock_price;
+SELECT 
+    [Date], 
+    ROUND([Close], 2) AS [close],
+    STDEV(CAST([Close] AS FLOAT)) OVER(ORDER BY Date ROWS BETWEEN 29 PRECEDING AND CURRENT ROW) AS Volatility_30
+FROM nflx;
 
 
 SELECT 
@@ -128,22 +131,23 @@ FROM spy;
 
 /*
 Comparative Analysis
-If you have data for other stocks or indices, you can compare Netflix’s performance.
+
+Compare Netflix’s performance with SPY over the same period
 */
--- Join with Another Stock Data
+-- Join with SPY ETF Data
 
 SELECT 
     n.[Date], 
     ROUND(n.[Close], 2) AS netflix_close, 
     ROUND(s.[Close], 2) AS spy_close
 FROM 
-    netflix_stock_price n
+    nflx n
     JOIN spy s 
         ON n.[Date] = s.[Date];
 
 /*
 Data Export for Visualization
-Export your analysis results to a CSV file for further visualization.
+Export your analysis results to a CSV file for further visualization
 */
 
 -- Use SQL Server Management Studio to export results to CSV
@@ -173,8 +177,9 @@ Example Workflow In SQL Server:
 */
 -- Data Cleaning:
 
+DELETE FROM nflx WHERE [Date] IS NULL;
 
-DELETE FROM netflix_stock_price WHERE [Date] IS NULL;
+DELETE FROM spy WHERE [Date] IS NULL;
 
 -- Calculating Moving Average:
 
@@ -182,7 +187,7 @@ SELECT
     [Date], 
     ROUND([Close], 2) AS [close], 
     ROUND(AVG(CAST([Close] AS FLOAT)) OVER(ORDER BY Date ROWS BETWEEN 29 PRECEDING AND CURRENT ROW), 2) AS Moving_Avg_30
-FROM netflix_stock_price;
+FROM nflx;
 
 -- Export Data:
 
@@ -237,7 +242,7 @@ WITH YearlyPrices AS
             MIN([Date]) AS StartDate,
             MAX([Date]) AS EndDate
         FROM
-            netflix_stock_price
+            nflx
         GROUP BY
         YEAR([Date])
     ),
@@ -251,10 +256,10 @@ WITH YearlyPrices AS
         FROM
             YearlyPrices yp
             JOIN
-            netflix_stock_price nflx_start
+            nflx  AS nflx_start
                 ON yp.StartDate = nflx_start.[Date]
             JOIN
-            netflix_stock_price nflx_end
+            nflx AS nflx_end
                 ON yp.EndDate = nflx_end.[Date]
     )
 SELECT
@@ -291,10 +296,10 @@ WITH YearlyPrices AS
         FROM
             YearlyPrices yp
             JOIN
-            spy spy_start
+            spy  AS spy_start
                 ON yp.StartDate = spy_start.[Date]
             JOIN
-            spy spy_end
+            spy AS spy_end
                 ON yp.EndDate = spy_end.[Date]
     )
 SELECT
@@ -317,7 +322,6 @@ What day of the week is NFLX/SPY most likely to be up?
 What day of the week is NFLX/SPY most likely to have the highest volume?
 */
 
-
 /*
 Annual-Monthly trends up/down?
 */
@@ -337,13 +341,13 @@ Annual-Monthly trends up/down?
 
 
 
-SELECT ABS(-243.5)
+SELECT ABS(-243.5)                                  -- absolute value
 
-SELECT ABS(100 / 1.2)
+SELECT ABS(100 / 1.2)                               -- absolute value
 
-SELECT CAST(100 / 1.2 AS INT)
+SELECT CAST(100 / 1.2 AS INT)                       -- INT can't have decimals, or remainders
 
-SELECT FLOOR(100 / 1.2) AS WholeNumberResult;
+SELECT FLOOR(100 / 1.2) AS WholeNumberResult;       -- this is the way
 
 
 
@@ -362,22 +366,22 @@ Difference between sale price of investment and starting price of investment
 */
 
 SELECT *
-FROM netflix_stock_price;
+FROM nflx;
 
 SELECT TOP 1
-    [Date] AS start_date,                                             -- 2002-05-23
-    ROUND(CAST([Close] AS FLOAT), 2) AS start_per_share_cost_basis         -- 1.20
-FROM netflix_stock_price;
+    [Date] AS start_date,                                                   -- 2002-05-23
+    ROUND(CAST([Close] AS FLOAT), 2) AS start_per_share_cost_basis          -- 1.20
+FROM nflx;
 
 SELECT 
     FLOOR(100 / 
     (
         SELECT TOP 1
             ROUND(CAST([Close] AS FLOAT), 2) AS start_per_share_cost_basis
-        FROM netflix_stock_price
+        FROM nflx
     )
-    ) AS number_of_shares           -- 83 shares
-FROM netflix_stock_price
+    ) AS number_of_shares                                                   -- 83 shares
+FROM nflx
 ;
 
 
