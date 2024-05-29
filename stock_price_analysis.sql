@@ -4,7 +4,7 @@ EXEC sp_rename 'netflix_stock_price', 'nflx';               -- executed
 
 -- DATA PROFILING
 
--- Initial Data Exploration
+-- Initial Data Exploration and Profiling
 SELECT *
 FROM nflx;
 
@@ -46,10 +46,44 @@ FROM spy
 WHERE [Date] > '2002-05-22' ;                     -- limiting time period to match NFLX data
 
 
+-- Data Distribution
+SELECT [Date], COUNT(*) AS frequency
+FROM nflx
+GROUP BY [Date]
+HAVING COUNT(*) != 1
+ORDER BY frequency DESC;
+
+SELECT CAST([Date] AS DATE), COUNT(*) AS frequency
+FROM spy
+GROUP BY [Date]
+HAVING COUNT(*) != 1
+ORDER BY frequency DESC;
+
+
 /*
 Data Import and Cleaning
 First, ensure your data is clean and ready for analysis in SQL Server. You can perform various cleaning operations using SQL queries.
 */
+
+-- Alter SPY table [Date] column to DATE datatype
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
