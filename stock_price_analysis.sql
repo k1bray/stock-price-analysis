@@ -366,28 +366,3 @@ FROM
         FROM spy
         ORDER BY [Date] DESC
     ) AS last_price;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
