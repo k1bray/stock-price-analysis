@@ -10,7 +10,9 @@ FROM nflx;
 
 SELECT *
 FROM spy
-WHERE [Date] > '2002-05-22';                     -- limiting time period to match NFLX data
+WHERE [Date] > '2002-05-22';        -- limiting time period to match NFLX data
+
+SELECT * FROM nflx WHERE [Close] != [Adj Close];        -- 0 rows
 
 SELECT *
 FROM INFORMATION_SCHEMA.TABLES;
@@ -32,7 +34,7 @@ SELECT
     MAX([Close]) AS max_close,
     ROUND(AVG(CAST([Volume] AS FLOAT)), 0) AS average_volume
 FROM nflx
-WHERE [Date] <= '2024-04-30';                   -- limiting time period to match SPY data
+WHERE [Date] <= '2024-04-30';       -- limiting time period to match SPY data
 
 
 SELECT
@@ -43,49 +45,18 @@ SELECT
     MAX([Close]) AS max_close,
     ROUND(AVG(CAST([Volume] AS FLOAT)), 0) AS average_volume
 FROM spy
-WHERE [Date] > '2002-05-22' ;                     -- limiting time period to match NFLX data
-
-
--- Data Distribution
-SELECT [Date], COUNT(*) AS frequency
-FROM nflx
-GROUP BY [Date]
-HAVING COUNT(*) != 1
-ORDER BY frequency DESC;
-
-SELECT CAST([Date] AS DATE), COUNT(*) AS frequency
-FROM spy
-GROUP BY [Date]
-HAVING COUNT(*) != 1
-ORDER BY frequency DESC;
-
+WHERE [Date] > '2002-05-22' ;       -- limiting time period to match NFLX data
 
 /*
-Data Import and Cleaning
+Data Cleaning
 First, ensure your data is clean and ready for analysis in SQL Server. You can perform various cleaning operations using SQL queries.
 */
 
--- Alter SPY table [Date] column to DATE datatype
+-- Alter SPY table [Date] column to DATE datatype for normalization with nflx table
+ALTER TABLE spy ALTER COLUMN [Date] DATE NOT NULL;      -- Executed
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+-- Deleting Adj Close column from nflx because it always equals the Close column
+ALTER TABLE nflx DROP COLUMN [Adj Close];       -- Executed
 
 -- Check for Missing Values
 
