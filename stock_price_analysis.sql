@@ -2,30 +2,45 @@ USE stock_price_analysis;
 
 EXEC sp_rename 'netflix_stock_price', 'nflx';               -- executed
 
--- DATA PROFILING
+-- DATA PROFILING & CLEANING
 
 -- Initial Data Exploration and Profiling
-SELECT *
-FROM nflx;
+SELECT * FROM nflx;
 
-SELECT *
-FROM spy
+SELECT * FROM spy
 WHERE [Date] > '2002-05-22';        -- limiting time period to match NFLX data
 
 SELECT * FROM nflx WHERE [Close] != [Adj Close];        -- 0 rows
 
+-- Seeing a list of all tables in the database
 SELECT *
 FROM INFORMATION_SCHEMA.TABLES;
 
+-- Checking the schema of the nflx table
 SELECT *
 FROM INFORMATION_SCHEMA.COLUMNS
 WHERE TABLE_NAME = 'nflx';
 
+-- Deleting Adj Close column from nflx because it always equals the Close column
+ALTER TABLE nflx DROP COLUMN [Adj Close];       -- Executed
+
+-- Altering datatypes in nflx table - All were varchar(50) from import
+ALTER TABLE nflx ALTER COLUMN [Date] DATE NOT NULL;
+ALTER TABLE nflx ALTER COLUMN [Open] REAL NOT NULL;
+ALTER TABLE nflx ALTER COLUMN [High] REAL NOT NULL;
+ALTER TABLE nflx ALTER COLUMN [Low] REAL NOT NULL;
+ALTER TABLE nflx ALTER COLUMN [Close] REAL NOT NULL;
+ALTER TABLE nflx ALTER COLUMN [Volume] REAL NOT NULL;
+
+-- Checking the schema of the spy table
 SELECT *
 FROM INFORMATION_SCHEMA.COLUMNS
 WHERE TABLE_NAME = 'spy';
 
--- Descriptive Statistics
+-- Alter SPY table [Date] column to DATE datatype for standardization with nflx table
+ALTER TABLE spy ALTER COLUMN [Date] DATE NOT NULL;      -- Executed
+
+-- Descriptive statistics for nflx table
 SELECT
     COUNT(*) AS total_rows,
     MIN([Date]) AS min_date,
@@ -36,7 +51,7 @@ SELECT
 FROM nflx
 WHERE [Date] <= '2024-04-30';       -- limiting time period to match SPY data
 
-
+-- Descriptive statistics for spy table
 SELECT
     COUNT(*) AS total_rows,
     MIN(CAST([Date] AS DATE)) AS min_date,
@@ -46,17 +61,6 @@ SELECT
     ROUND(AVG(CAST([Volume] AS FLOAT)), 0) AS average_volume
 FROM spy
 WHERE [Date] > '2002-05-22' ;       -- limiting time period to match NFLX data
-
-/*
-Data Cleaning
-First, ensure your data is clean and ready for analysis in SQL Server. You can perform various cleaning operations using SQL queries.
-*/
-
--- Alter SPY table [Date] column to DATE datatype for normalization with nflx table
-ALTER TABLE spy ALTER COLUMN [Date] DATE NOT NULL;      -- Executed
-
--- Deleting Adj Close column from nflx because it always equals the Close column
-ALTER TABLE nflx DROP COLUMN [Adj Close];       -- Executed
 
 -- Check for Missing Values
 
@@ -87,9 +91,7 @@ WHERE
     OR [Close] IS NULL
     OR [Volume] IS NULL;
 
--- Remove Duplicate Records
--- 0 duplicate rows in all tables
-
+-- Checking for and removing duplicate records in nflx table
 WITH CTE AS (
     SELECT *, 
            ROW_NUMBER() OVER(PARTITION BY Date ORDER BY Date) AS row_num
@@ -97,7 +99,7 @@ WITH CTE AS (
 )
 DELETE FROM CTE WHERE row_num > 1;
 
-
+-- Checking for and removing duplicate records in spy table
 WITH CTE AS (
     SELECT *,
         ROW_NUMBER() OVER(PARTITION BY Date ORDER BY Date) AS row_num
@@ -105,13 +107,9 @@ WITH CTE AS (
     )
 DELETE FROM CTE WHERE row_num > 1;
 
-/*
-Exploratory Data Analysis (EDA) Using SQL
-Perform initial analysis using SQL queries
-*/
 
---Summary Statistics
-
+-- Exploratory Data Analysis (EDA)
+-- Summary Statistics nflx table
 SELECT 
     ROUND(AVG(CAST([Open] AS FLOAT)), 2) AS Avg_Open,           -- 140.53
     ROUND(AVG(CAST([Close] AS FLOAT)), 2) AS Avg_Close,         -- 140.56
@@ -120,7 +118,7 @@ SELECT
     ROUND(AVG(CAST([Volume] AS FLOAT)), 0) AS Avg_Volume        -- 15694382
 FROM nflx;
 
-
+-- Summary Statistics spy table
 SELECT
     ROUND(AVG(CAST([Open] AS FLOAT)), 2) AS Avg_Open,           -- 182.92
     ROUND(AVG(CAST([Close] AS FLOAT)), 2) AS Avg_Close,         -- 182.04
@@ -130,48 +128,37 @@ SELECT
 FROM spy
 WHERE [Date] > '2002-05-22'     -- limiting time period to match NFLX data
 
--- Time Series Analysis
-
-SELECT 
-    [Date], 
-    ROUND([Close], 2) AS [close] 
-FROM nflx
-ORDER BY [Date];
-
-/*
-Advanced Analysis Using SQL
-Use SQL for more sophisticated analyses
-*/
--- Moving Averages
-
+-- Moving average for nflx table
 SELECT 
     [Date] AS 'date', 
     ROUND([Close], 2) AS 'close', 
     ROUND(AVG(CAST([Close] AS FLOAT)) OVER(ORDER BY Date ROWS BETWEEN 29 PRECEDING AND CURRENT ROW), 2) AS 'moving_avg_30'
-FROM nflx;
+FROM nflx
+WHERE [Date] <= '2024-04-30';       -- limiting time period to match SPY data;
 
-
+-- Moving average for spy table
 SELECT
     CAST([Date] AS DATE) AS DateFormatted,
     ROUND([Close], 2) AS 'close',
     ROUND(AVG(CAST([Close] AS FLOAT)) OVER(ORDER BY Date ROWS BETWEEN 29 PRECEDING AND CURRENT ROW), 2) AS 'moving_avg_30'
 FROM spy
-WHERE [Date] > '2002-05-22'                         -- limiting time period to match NFLX data;
+WHERE [Date] > '2002-05-22';        -- limiting time period to match NFLX data;
 
 -- Volatility Analysis
-
 SELECT 
     [Date], 
     ROUND([Close], 2) AS [close],
     STDEV(CAST([Close] AS FLOAT)) OVER(ORDER BY Date ROWS BETWEEN 29 PRECEDING AND CURRENT ROW) AS Volatility_30
-FROM nflx;
+FROM nflx
+WHERE [Date] <= '2024-04-30';       -- limiting time period to match SPY data;
 
 
 SELECT 
     CAST([Date] AS DATE) AS DateFormatted,
     ROUND([Close], 2) AS [close],
     STDEV(CAST([Close] AS FLOAT)) OVER(ORDER BY Date ROWS BETWEEN 29 PRECEDING AND CURRENT ROW) AS Volatility_30
-FROM spy;
+FROM spy
+WHERE [Date] > '2002-05-22';        -- limiting time period to match NFLX data;
 
 /*
 Comparative Analysis
