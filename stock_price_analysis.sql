@@ -5,11 +5,14 @@ EXEC sp_rename 'netflix_stock_price', 'nflx';               -- executed
 -- DATA PROFILING & CLEANING
 
 -- Initial Data Exploration and Profiling
+-- Taking a look at the nflx table
 SELECT * FROM nflx;
 
+-- Taking a look at the spy table
 SELECT * FROM spy
 WHERE [Date] > '2002-05-22';        -- limiting time period to match NFLX data
 
+-- Seeing if there are any rows where the Close price is different from the Adj Close price
 SELECT * FROM nflx WHERE [Close] != [Adj Close];        -- 0 rows
 
 -- Seeing a list of all tables in the database
