@@ -128,23 +128,27 @@ SELECT
 FROM spy
 WHERE [Date] > '2002-05-22'     -- limiting time period to match NFLX data
 
--- Moving average for nflx table
-SELECT 
-    [Date] AS 'date', 
-    ROUND([Close], 2) AS 'close', 
-    ROUND(AVG(CAST([Close] AS FLOAT)) OVER(ORDER BY Date ROWS BETWEEN 29 PRECEDING AND CURRENT ROW), 2) AS 'moving_avg_30'
+-- Moving averages for nflx table
+SELECT
+    [Date],
+    ROUND([Close], 2) AS [close],
+    ROUND(AVG(CAST([Close] AS FLOAT)) OVER(ORDER BY Date ROWS BETWEEN 29 PRECEDING AND CURRENT ROW), 2) AS Moving_Avg_30,
+    ROUND(AVG(CAST([Close] AS FLOAT)) OVER(ORDER BY Date ROWS BETWEEN 49 PRECEDING AND CURRENT ROW), 2) AS Moving_Avg_50,
+    ROUND(AVG(CAST([Close] AS FLOAT)) OVER(ORDER BY Date ROWS BETWEEN 199 PRECEDING AND CURRENT ROW), 2) AS Moving_Avg_200
 FROM nflx
 WHERE [Date] <= '2024-04-30';       -- limiting time period to match SPY data;
 
 -- Moving average for spy table
 SELECT
-    CAST([Date] AS DATE) AS DateFormatted,
-    ROUND([Close], 2) AS 'close',
-    ROUND(AVG(CAST([Close] AS FLOAT)) OVER(ORDER BY Date ROWS BETWEEN 29 PRECEDING AND CURRENT ROW), 2) AS 'moving_avg_30'
+    [Date],
+    ROUND([Close], 2) AS [close],
+    ROUND(AVG(CAST([Close] AS FLOAT)) OVER(ORDER BY Date ROWS BETWEEN 29 PRECEDING AND CURRENT ROW), 2) AS Moving_Avg_30,
+    ROUND(AVG(CAST([Close] AS FLOAT)) OVER(ORDER BY Date ROWS BETWEEN 49 PRECEDING AND CURRENT ROW), 2) AS Moving_Avg_50,
+    ROUND(AVG(CAST([Close] AS FLOAT)) OVER(ORDER BY Date ROWS BETWEEN 199 PRECEDING AND CURRENT ROW), 2) AS Moving_Avg_200
 FROM spy
 WHERE [Date] > '2002-05-22';        -- limiting time period to match NFLX data;
 
--- Volatility Analysis
+-- Historical volatility analysis for nflx table
 SELECT 
     [Date], 
     ROUND([Close], 2) AS [close],
@@ -152,7 +156,7 @@ SELECT
 FROM nflx
 WHERE [Date] <= '2024-04-30';       -- limiting time period to match SPY data;
 
-
+-- Historical volatility analysis for spy table
 SELECT 
     CAST([Date] AS DATE) AS DateFormatted,
     ROUND([Close], 2) AS [close],
@@ -160,13 +164,10 @@ SELECT
 FROM spy
 WHERE [Date] > '2002-05-22';        -- limiting time period to match NFLX data;
 
-/*
-Comparative Analysis
+-- Comparative Analysis
+-- Compare Netflix’s performance with SPY over the same period
 
-Compare Netflix’s performance with SPY over the same period
-*/
 -- Join with SPY ETF Data
-
 SELECT 
     n.[Date], 
     ROUND(n.[Close], 2) AS netflix_close, 
@@ -208,18 +209,6 @@ Example Workflow In SQL Server:
 */
 -- Data Cleaning:
 
-DELETE FROM nflx WHERE [Date] IS NULL;
-
-DELETE FROM spy WHERE [Date] IS NULL;
-
--- Calculating Moving Average:
-
-SELECT 
-    [Date], 
-    ROUND([Close], 2) AS [close], 
-    ROUND(AVG(CAST([Close] AS FLOAT)) OVER(ORDER BY Date ROWS BETWEEN 29 PRECEDING AND CURRENT ROW), 2) AS Moving_Avg_30
-FROM nflx;
-
 -- Export Data:
 
 /*
@@ -259,38 +248,35 @@ data analysis project showcasing your SQL skills and your ability to interpret a
 
 
 
-/*
-Calculating the yearly return for each underlying
 
-*********A point to note is that the return for 2002 is only based on a partial year
-*/
+-- Calculating the yearly return for each underlying
+-- *********A point to note is that the returns for 2002 and 2024 are only based on a partial year
 
---NFLX
+-- NFLX annual returns since 2002
 WITH YearlyPrices AS
     (
         SELECT
-            YEAR([Date]) AS Year,
-            MIN([Date]) AS StartDate,
-            MAX([Date]) AS EndDate
+            YEAR([Date]) AS Year,       -- year
+            MIN([Date]) AS StartDate,   -- earliest trading day in the year
+            MAX([Date]) AS EndDate      -- latest trading day in the year
         FROM
             nflx
+        WHERE 
+            [Date] <= '2024-04-30'      -- limited to match spy table
         GROUP BY
         YEAR([Date])
     ),
-    StartEndPrices
-    AS
+    StartEndPrices AS
     (
         SELECT
-            yp.Year,
-            CAST(nflx_start.[Close] AS DECIMAL(18, 2)) AS StartPrice,
-            CAST(nflx_end.[Close] AS DECIMAL(18, 2)) AS EndPrice
+            yp.Year,                                                    -- year
+            CAST(nflx_start.[Close] AS DECIMAL(18, 2)) AS StartPrice,   -- earliest closing price for the year
+            CAST(nflx_end.[Close] AS DECIMAL(18, 2)) AS EndPrice        -- latest closing proce of the year
         FROM
             YearlyPrices yp
-            JOIN
-            nflx  AS nflx_start
+            JOIN nflx  AS nflx_start
                 ON yp.StartDate = nflx_start.[Date]
-            JOIN
-            nflx AS nflx_end
+            JOIN nflx AS nflx_end
                 ON yp.EndDate = nflx_end.[Date]
     )
 SELECT
@@ -304,7 +290,7 @@ ORDER BY
     Year;
 
 
---SPY
+--SPY annual returns since 2002
 WITH YearlyPrices AS
     (
         SELECT
@@ -313,7 +299,7 @@ WITH YearlyPrices AS
             MAX([Date]) AS EndDate
         FROM
             spy
-        WHERE [Date] > '2002-05-22'
+        WHERE [Date] > '2002-05-22'         --limited to match nflx table
         GROUP BY
         YEAR([Date])
     ),
@@ -343,81 +329,43 @@ FROM
 ORDER BY
     Year;
 
-
-
-/*
-What day of the week is NFLX/SPY most likely to be up?
-*/
-
-/*
-What day of the week is NFLX/SPY most likely to have the highest volume?
-*/
-
-/*
-Annual-Monthly trends up/down?
-*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-SELECT ABS(-243.5)                                  -- absolute value
-
-SELECT ABS(100 / 1.2)                               -- absolute value
-
-SELECT CAST(100 / 1.2 AS INT)                       -- INT can't have decimals, or remainders
-
-SELECT FLOOR(100 / 1.2) AS WholeNumberResult;       -- this is the way
-
-
-
-
-/*
-Start date
-Number of shares for $100
-Cost basis per share (starting close price)
-Cost basis for investment (starting close price * number of shares)
-
-End date
-Sale price per share (ending close price)
-Sale price of investment (ending close price * number of shares)
-
-Difference between sale price of investment and starting price of investment
-*/
-
-SELECT *
-FROM nflx;
-
-SELECT TOP 1
-    [Date] AS start_date,                                                   -- 2002-05-23
-    ROUND(CAST([Close] AS FLOAT), 2) AS start_per_share_cost_basis          -- 1.20
-FROM nflx;
-
-SELECT 
-    FLOOR(100 / 
+-- Calculate the current value of a $100 investment in NFLX on 2002-05-23
+SELECT
+    ROUND((100 / first_price.[Close]) * last_price.[Close], 2) AS investment_value,      -- $54056.70
+    ROUND(((100 / first_price.[Close]) * last_price.[Close] - 100) / 100 * 100, 1) AS percent_return
+FROM
     (
         SELECT TOP 1
-            ROUND(CAST([Close] AS FLOAT), 2) AS start_per_share_cost_basis
+            [Close]
         FROM nflx
-    )
-    ) AS number_of_shares                                                   -- 83 shares
-FROM nflx
-;
+        WHERE [Date] = '2002-05-23'
+        ORDER BY [date] ASC
+    ) AS first_price,
+    (
+        SELECT TOP 1
+            [Close]
+        FROM nflx
+        ORDER BY [Date] DESC
+    ) AS last_price;
 
-
-
-
+-- Calculate the current value of a $100 investment in SPY on 2002-05-23
+SELECT
+    ROUND((100 / first_price.[Close]) * last_price.[Close], 2) AS investment_value,      -- $690.30
+    ROUND(((100 / first_price.[Close]) * last_price.[Close] - 100) / 100 * 100, 1) AS percent_return
+FROM
+    (
+        SELECT TOP 1
+            [Close]
+        FROM spy
+        WHERE [Date] = '2002-05-23'
+        ORDER BY [date] ASC
+    ) AS first_price,
+    (
+        SELECT TOP 1
+            [Close]
+        FROM spy
+        ORDER BY [Date] DESC
+    ) AS last_price;
 
 
 
