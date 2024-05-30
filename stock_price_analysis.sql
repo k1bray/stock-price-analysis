@@ -1,10 +1,12 @@
 USE stock_price_analysis;
 
-EXEC sp_rename 'netflix_stock_price', 'nflx';               -- executed
-
 -- DATA PROFILING & CLEANING
 
 -- Initial Data Exploration and Profiling
+
+-- Renaming 'netflix_stock_price' to 'nflx' for query simplification
+EXEC sp_rename 'netflix_stock_price', 'nflx';               -- executed
+
 -- Taking a look at the nflx table
 SELECT * FROM nflx;
 
