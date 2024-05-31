@@ -1,5 +1,9 @@
 USE stock_price_analysis;
 
+
+
+
+
 -- DATA PROFILING & CLEANING
 -- Initial Data Exploration and Profiling
 
@@ -110,6 +114,9 @@ WITH CTE AS (
 DELETE FROM CTE WHERE row_num > 1;
 
 
+
+
+
 -- Exploratory Data Analysis (EDA)
 -- Summary Statistics nflx table
 SELECT 
@@ -166,6 +173,10 @@ SELECT
 FROM spy
 WHERE [Date] > '2002-05-22';        -- limiting time period to match NFLX data;
 
+
+
+
+
 -- Comparative Analysis
 -- Compare Netflix’s performance with SPY over the same period
 
@@ -178,6 +189,137 @@ FROM
     nflx n
     JOIN spy s 
         ON n.[Date] = s.[Date];
+
+
+
+
+
+-- Calculating the yearly return for each underlying
+-- *********A point to note is that the returns for 2002 and 2024 are only based on a partial year
+
+-- NFLX annual returns since 2002
+WITH
+    YearlyPrices
+    AS
+    (
+        SELECT
+            YEAR([Date]) AS Year, -- year
+            MIN([Date]) AS StartDate, -- earliest trading day in the year
+            MAX([Date]) AS EndDate
+        -- latest trading day in the year
+        FROM
+            nflx
+        WHERE 
+            [Date] <= '2024-04-30'
+        -- limited to match spy table
+        GROUP BY
+        YEAR([Date])
+    ),
+    StartEndPrices
+    AS
+    (
+        SELECT
+            yp.Year, -- year
+            CAST(nflx_start.[Close] AS DECIMAL(18, 2)) AS StartPrice, -- earliest closing price for the year
+            CAST(nflx_end.[Close] AS DECIMAL(18, 2)) AS EndPrice
+        -- latest closing proce of the year
+        FROM
+            YearlyPrices yp
+            JOIN nflx  AS nflx_start
+            ON yp.StartDate = nflx_start.[Date]
+            JOIN nflx AS nflx_end
+            ON yp.EndDate = nflx_end.[Date]
+    )
+SELECT
+    Year,
+    StartPrice,
+    EndPrice,
+    RTRIM(CAST(ROUND((((EndPrice - StartPrice) / StartPrice) * 100), 1) AS DECIMAL(18, 1))) AS PercentReturn
+FROM
+    StartEndPrices
+ORDER BY
+    Year;
+
+
+--SPY annual returns since 2002
+WITH
+    YearlyPrices
+    AS
+    (
+        SELECT
+            YEAR([Date]) AS Year,
+            MIN([Date]) AS StartDate,
+            MAX([Date]) AS EndDate
+        FROM
+            spy
+        WHERE [Date] > '2002-05-22'
+        --limited to match nflx table
+        GROUP BY
+        YEAR([Date])
+    ),
+    StartEndPrices
+    AS
+    (
+        SELECT
+            yp.Year,
+            CAST(spy_start.[Close] AS DECIMAL(18, 2)) AS StartPrice,
+            CAST(spy_end.[Close] AS DECIMAL(18, 2)) AS EndPrice
+        FROM
+            YearlyPrices yp
+            JOIN
+            spy  AS spy_start
+            ON yp.StartDate = spy_start.[Date]
+            JOIN
+            spy AS spy_end
+            ON yp.EndDate = spy_end.[Date]
+    )
+SELECT
+    Year,
+    StartPrice,
+    EndPrice,
+    RTRIM(CAST(ROUND((((EndPrice - StartPrice) / StartPrice) * 100), 1) AS DECIMAL(18, 1))) AS PercentReturn
+FROM
+    StartEndPrices
+ORDER BY
+    Year;
+
+-- Calculate the current value of a $100 investment in NFLX on 2002-05-23
+SELECT
+    ROUND((100 / first_price.[Close]) * last_price.[Close], 2) AS investment_value, -- $54056.70
+    ROUND(((100 / first_price.[Close]) * last_price.[Close] - 100) / 100 * 100, 1) AS percent_return
+FROM
+    (
+        SELECT TOP 1
+        [Close]
+    FROM nflx
+    WHERE [Date] = '2002-05-23'
+    ORDER BY [date] ASC
+    ) AS first_price,
+    (
+        SELECT TOP 1
+        [Close]
+    FROM nflx
+    ORDER BY [Date] DESC
+    ) AS last_price;
+
+-- Calculate the current value of a $100 investment in SPY on 2002-05-23
+SELECT
+    ROUND((100 / first_price.[Close]) * last_price.[Close], 2) AS investment_value, -- $690.30
+    ROUND(((100 / first_price.[Close]) * last_price.[Close] - 100) / 100 * 100, 1) AS percent_return
+FROM
+    (
+        SELECT TOP 1
+        [Close]
+    FROM spy
+    WHERE [Date] = '2002-05-23'
+    ORDER BY [date] ASC
+    ) AS first_price,
+    (
+        SELECT TOP 1
+        [Close]
+    FROM spy
+    ORDER BY [Date] DESC
+    ) AS last_price;
 
 /*
 Data Export for Visualization
@@ -247,124 +389,3 @@ Presentation: Prepare a PowerPoint presentation summarizing your analysis.
 By leveraging SQL for data processing and Excel or Power BI for visualization, you can create a comprehensive 
 data analysis project showcasing your SQL skills and your ability to interpret and visualize data effectively.
 */
-
-
-
-
--- Calculating the yearly return for each underlying
--- *********A point to note is that the returns for 2002 and 2024 are only based on a partial year
-
--- NFLX annual returns since 2002
-WITH YearlyPrices AS
-    (
-        SELECT
-            YEAR([Date]) AS Year,       -- year
-            MIN([Date]) AS StartDate,   -- earliest trading day in the year
-            MAX([Date]) AS EndDate      -- latest trading day in the year
-        FROM
-            nflx
-        WHERE 
-            [Date] <= '2024-04-30'      -- limited to match spy table
-        GROUP BY
-        YEAR([Date])
-    ),
-    StartEndPrices AS
-    (
-        SELECT
-            yp.Year,                                                    -- year
-            CAST(nflx_start.[Close] AS DECIMAL(18, 2)) AS StartPrice,   -- earliest closing price for the year
-            CAST(nflx_end.[Close] AS DECIMAL(18, 2)) AS EndPrice        -- latest closing proce of the year
-        FROM
-            YearlyPrices yp
-            JOIN nflx  AS nflx_start
-                ON yp.StartDate = nflx_start.[Date]
-            JOIN nflx AS nflx_end
-                ON yp.EndDate = nflx_end.[Date]
-    )
-SELECT
-    Year,
-    StartPrice,
-    EndPrice,
-    RTRIM(CAST(ROUND((((EndPrice - StartPrice) / StartPrice) * 100), 1) AS DECIMAL(18, 1))) AS PercentReturn
-FROM
-    StartEndPrices
-ORDER BY
-    Year;
-
-
---SPY annual returns since 2002
-WITH YearlyPrices AS
-    (
-        SELECT
-            YEAR([Date]) AS Year,
-            MIN([Date]) AS StartDate,
-            MAX([Date]) AS EndDate
-        FROM
-            spy
-        WHERE [Date] > '2002-05-22'         --limited to match nflx table
-        GROUP BY
-        YEAR([Date])
-    ),
-    StartEndPrices
-    AS
-    (
-        SELECT
-            yp.Year,
-            CAST(spy_start.[Close] AS DECIMAL(18, 2)) AS StartPrice,
-            CAST(spy_end.[Close] AS DECIMAL(18, 2)) AS EndPrice
-        FROM
-            YearlyPrices yp
-            JOIN
-            spy  AS spy_start
-                ON yp.StartDate = spy_start.[Date]
-            JOIN
-            spy AS spy_end
-                ON yp.EndDate = spy_end.[Date]
-    )
-SELECT
-    Year,
-    StartPrice,
-    EndPrice,
-    RTRIM(CAST(ROUND((((EndPrice - StartPrice) / StartPrice) * 100), 1) AS DECIMAL(18, 1))) AS PercentReturn
-FROM
-    StartEndPrices
-ORDER BY
-    Year;
-
--- Calculate the current value of a $100 investment in NFLX on 2002-05-23
-SELECT
-    ROUND((100 / first_price.[Close]) * last_price.[Close], 2) AS investment_value,      -- $54056.70
-    ROUND(((100 / first_price.[Close]) * last_price.[Close] - 100) / 100 * 100, 1) AS percent_return
-FROM
-    (
-        SELECT TOP 1
-            [Close]
-        FROM nflx
-        WHERE [Date] = '2002-05-23'
-        ORDER BY [date] ASC
-    ) AS first_price,
-    (
-        SELECT TOP 1
-            [Close]
-        FROM nflx
-        ORDER BY [Date] DESC
-    ) AS last_price;
-
--- Calculate the current value of a $100 investment in SPY on 2002-05-23
-SELECT
-    ROUND((100 / first_price.[Close]) * last_price.[Close], 2) AS investment_value,      -- $690.30
-    ROUND(((100 / first_price.[Close]) * last_price.[Close] - 100) / 100 * 100, 1) AS percent_return
-FROM
-    (
-        SELECT TOP 1
-            [Close]
-        FROM spy
-        WHERE [Date] = '2002-05-23'
-        ORDER BY [date] ASC
-    ) AS first_price,
-    (
-        SELECT TOP 1
-            [Close]
-        FROM spy
-        ORDER BY [Date] DESC
-    ) AS last_price;
