@@ -208,88 +208,94 @@ FROM
 
 -- Calculating the yearly return for each underlying
 -- *********A point to note is that the returns for 2002 and 2024 are only based on a partial year
-
+SELECT * FROM nflx;
 -- NFLX annual returns since 2002
-WITH
-    YearlyPrices
-    AS
+WITH YearlyPrices AS
     (
         SELECT
-            YEAR([Date]) AS Year, -- year
-            MIN([Date]) AS StartDate, -- earliest trading day in the year
-            MAX([Date]) AS EndDate
-        -- latest trading day in the year
+            YEAR([Date]) AS Year,           -- year
+            MIN([Date]) AS StartDate,       -- Earliest trading day of the year
+            MAX([Date]) AS EndDate          -- latest trading day of the year
         FROM
             nflx
-        WHERE 
-            [Date] <= '2024-04-30'
-        -- limited to match spy table
+        WHERE
+            [Date] <= '2024-04-30'          -- limited to match the spy table
         GROUP BY
-        YEAR([Date])
+            YEAR([Date])
     ),
-    StartEndPrices
-    AS
+    StartEndPrices AS
     (
         SELECT
-            yp.Year, -- year
-            CAST(nflx_start.[Close] AS DECIMAL(18, 2)) AS StartPrice, -- earliest closing price for the year
-            CAST(nflx_end.[Close] AS DECIMAL(18, 2)) AS EndPrice
-        -- latest closing proce of the year
+            yp.Year,                                                        -- year
+            CAST(nflx_start.[Close] AS DECIMAL(18, 2)) AS StartPrice,       -- earliest closing price of the year
+            CAST(nflx_end.[Close] AS DECIMAL(18, 2)) AS EndPrice,           -- latest closing price of the year
+            CAST(AVG(nflx.[Volume]) AS DECIMAL(18, 2)) AS AvgVolume         -- average volume
         FROM
             YearlyPrices yp
-            JOIN nflx  AS nflx_start
-            ON yp.StartDate = nflx_start.[Date]
-            JOIN nflx AS nflx_end
-            ON yp.EndDate = nflx_end.[Date]
+                JOIN nflx AS nflx_start
+                    ON yp.StartDate = nflx_start.[Date]
+                JOIN nflx AS nflx_end
+                    ON yp.EndDate = nflx_end.[Date]
+                CROSS JOIN nflx
+        WHERE
+            nflx.[Date] BETWEEN yp.StartDate AND yp.EndDate
+        GROUP BY
+            yp.Year,
+            nflx_start.[Close],
+            nflx_end.[Close]
     )
 SELECT
     Year,
     StartPrice,
     EndPrice,
-    RTRIM(CAST(ROUND((((EndPrice - StartPrice) / StartPrice) * 100), 1) AS DECIMAL(18, 1))) AS PercentReturn
+    RTRIM(CAST(ROUND((((EndPrice - StartPrice) / StartPrice) * 100), 1) AS DECIMAL(18, 1))) AS PercentReturn,
+    ROUND(CAST(AvgVolume AS INT), 0) AS AVGVolume
 FROM
     StartEndPrices
 ORDER BY
     Year;
 
-
 --SPY annual returns since 2002
-WITH
-    YearlyPrices
-    AS
+WITH YearlyPrices AS
     (
         SELECT
-            YEAR([Date]) AS Year,
-            MIN([Date]) AS StartDate,
-            MAX([Date]) AS EndDate
+            YEAR([Date]) AS Year,               -- year
+            MIN([Date]) AS StartDate,           -- Earliest trading day of the year
+            MAX([Date]) AS EndDate              -- latest trading day of the year
         FROM
             spy
-        WHERE [Date] > '2002-05-22'
-        --limited to match nflx table
+        WHERE
+            [Date] >= '2002-05-23'              -- limited to match the nflx table
         GROUP BY
-        YEAR([Date])
+            YEAR([Date])
     ),
-    StartEndPrices
-    AS
+    StartEndPrices AS
     (
         SELECT
-            yp.Year,
-            CAST(spy_start.[Close] AS DECIMAL(18, 2)) AS StartPrice,
-            CAST(spy_end.[Close] AS DECIMAL(18, 2)) AS EndPrice
+            yp.Year,                                                        -- year
+            CAST(spy_start.[Close] AS DECIMAL(18, 2)) AS StartPrice,        -- earliest closing price of the year
+            CAST(spy_end.[Close] AS DECIMAL(18, 2)) AS EndPrice,            -- latest closing price of the year
+            CAST(AVG(spy.[Volume]) AS DECIMAL(18, 2)) AS AvgVolume          -- average volume
         FROM
             YearlyPrices yp
-            JOIN
-            spy  AS spy_start
-            ON yp.StartDate = spy_start.[Date]
-            JOIN
-            spy AS spy_end
-            ON yp.EndDate = spy_end.[Date]
+                JOIN spy AS spy_start
+                    ON yp.StartDate = spy_start.[Date]
+                JOIN spy AS spy_end
+                    ON yp.EndDate = spy_end.[Date]
+                CROSS JOIN spy
+        WHERE
+            spy.[Date] BETWEEN yp.StartDate AND yp.EndDate
+        GROUP BY
+            yp.Year,
+            spy_start.[Close],
+            spy_end.[Close]
     )
 SELECT
     Year,
     StartPrice,
     EndPrice,
-    RTRIM(CAST(ROUND((((EndPrice - StartPrice) / StartPrice) * 100), 1) AS DECIMAL(18, 1))) AS PercentReturn
+    RTRIM(CAST(ROUND((((EndPrice - StartPrice) / StartPrice) * 100), 1) AS DECIMAL(18, 1))) AS PercentReturn,
+    ROUND(CAST(AvgVolume AS INT), 0) AS AVGVolume
 FROM
     StartEndPrices
 ORDER BY
