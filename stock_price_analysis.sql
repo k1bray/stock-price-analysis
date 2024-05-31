@@ -1,7 +1,6 @@
 USE stock_price_analysis;
 
 -- DATA PROFILING & CLEANING
-
 -- Initial Data Exploration and Profiling
 
 -- Renaming 'netflix_stock_price' to 'nflx' for query simplification
@@ -14,9 +13,6 @@ SELECT * FROM nflx;
 SELECT * FROM spy
 WHERE [Date] > '2002-05-22';        -- limiting time period to match NFLX data
 
--- Seeing if there are any rows where the Close price is different from the Adj Close price
-SELECT * FROM nflx WHERE [Close] != [Adj Close];        -- 0 rows
-
 -- Seeing a list of all tables in the database
 SELECT *
 FROM INFORMATION_SCHEMA.TABLES;
@@ -25,6 +21,9 @@ FROM INFORMATION_SCHEMA.TABLES;
 SELECT *
 FROM INFORMATION_SCHEMA.COLUMNS
 WHERE TABLE_NAME = 'nflx';
+
+-- Seeing if there are any rows where the Close price is different from the Adj Close price
+SELECT * FROM nflx WHERE [Close] != [Adj Close];        -- 0 rows
 
 -- Deleting Adj Close column from nflx because it always equals the Close column
 ALTER TABLE nflx DROP COLUMN [Adj Close];       -- Executed
@@ -47,28 +46,27 @@ ALTER TABLE spy ALTER COLUMN [Date] DATE NOT NULL;      -- Executed
 
 -- Descriptive statistics for nflx table
 SELECT
-    COUNT(*) AS total_rows,
-    MIN([Date]) AS min_date,
-    MAX([Date]) AS max_date,
-    MIN([Close]) AS min_close,
-    MAX([Close]) AS max_close,
-    ROUND(AVG(CAST([Volume] AS FLOAT)), 0) AS average_volume
+    COUNT(*) AS total_rows,                                     -- 5522 total_rows
+    MIN([Date]) AS min_date,                                    -- 2002-05-23 min_date
+    MAX([Date]) AS max_date,                                    -- 2024-04-30 max_date
+    MIN([Close]) AS min_close,                                  -- 0.372857 min_close
+    MAX([Close]) AS max_close,                                  -- 691.69 max_close
+    ROUND(AVG(CAST([Volume] AS FLOAT)), 0) AS average_volume    -- 15735357 avg volume
 FROM nflx
 WHERE [Date] <= '2024-04-30';       -- limiting time period to match SPY data
 
 -- Descriptive statistics for spy table
 SELECT
-    COUNT(*) AS total_rows,
-    MIN(CAST([Date] AS DATE)) AS min_date,
-    MAX(CAST([Date] AS DATE)) AS max_date,
-    MIN([Close]) AS min_close,
-    MAX([Close]) AS max_close,
-    ROUND(AVG(CAST([Volume] AS FLOAT)), 0) AS average_volume
+    COUNT(*) AS total_rows,                                     -- 5522 total_rows
+    MIN(CAST([Date] AS DATE)) AS min_date,                      -- 2002-05-23 min_date
+    MAX(CAST([Date] AS DATE)) AS max_date,                      -- 2024-04-30 max_date
+    MIN([Close]) AS min_close,                                  -- 51.020744 min_close
+    MAX([Close]) AS max_close,                                  -- 523.17 max_close
+    ROUND(AVG(CAST([Volume] AS FLOAT)), 0) AS average_volume    -- 118013366 avg volume
 FROM spy
 WHERE [Date] > '2002-05-22' ;       -- limiting time period to match NFLX data
 
--- Check for Missing Values
-
+-- Check for Missing Values in the nflx table
 SELECT *                                        -- 0 rows
 FROM nflx
 WHERE 
@@ -79,14 +77,8 @@ WHERE
     OR [Close] IS NULL 
     OR [Volume] IS NULL;
 
-
-SELECT                                          -- 0 rows         
-    CAST([Date] AS DATE) AS DateFormatted,
-    [Open],
-    [High],
-    [Low],
-    [Close],
-    [Volume]
+-- Check for Missing Values in the spy table
+SELECT *                                         -- 0 rows         
 FROM spy
 WHERE   
     [Date] IS NULL
@@ -94,7 +86,12 @@ WHERE
     OR [High] IS NULL
     OR [Low] IS NULL
     OR [Close] IS NULL
-    OR [Volume] IS NULL;
+    OR [Volume] IS NULL
+    OR [Day] IS NULL
+    OR [Weekday] IS NULL
+    OR [Week] IS NULL
+    OR [Month] IS NULL
+    OR [Year] IS NULL;
 
 -- Checking for and removing duplicate records in nflx table
 WITH CTE AS (
