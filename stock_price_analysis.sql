@@ -13,6 +13,18 @@ EXEC sp_rename 'netflix_stock_price', 'nflx';               -- executed
 -- Taking a look at the nflx table
 SELECT * FROM nflx;
 
+-- Checking time periods for nflx where the stick had been split
+-- trying to see if the [Close] prices in the dataset have been split-adjusted
+-- The price data seems to be split adjusted
+-- 2002-05-23 IPO price for NFLX was $15.00 per share - Dataset shows earliest price at $1.156429
+SELECT *
+FROM nflx 
+WHERE [Date] BETWEEN '2004-01-01' AND '2004-01-31'      -- 2-for-1 split
+
+SELECT *
+FROM nflx
+WHERE [Date] BETWEEN '2015-06-01' AND '2015-06-30'      -- 7-for-1 split
+
 -- Taking a look at the spy table
 SELECT * FROM spy
 WHERE [Date] > '2002-05-22';        -- limiting time period to match NFLX data
@@ -286,7 +298,7 @@ ORDER BY
 -- Calculate the current value of a $100 investment in NFLX on 2002-05-23
 SELECT
     ROUND((100 / first_price.[Close]) * last_price.[Close], 2) AS investment_value, -- $54056.70
-    ROUND(((100 / first_price.[Close]) * last_price.[Close] - 100) / 100 * 100, 1) AS percent_return
+    ROUND(((100 / first_price.[Close]) * last_price.[Close] - 100) / 100 * 100, 1) AS percent_return    -- $53956.70
 FROM
     (
         SELECT TOP 1
