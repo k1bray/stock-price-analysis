@@ -60,6 +60,13 @@ WHERE TABLE_NAME = 'spy';
 -- Alter SPY table [Date] column to DATE datatype for standardization with nflx table
 ALTER TABLE spy ALTER COLUMN [Date] DATE NOT NULL;      -- Executed
 
+--Dropping unused columns from the SPY table
+ALTER TABLE spy DROP COLUMN [Day];          -- Executed
+ALTER TABLE spy DROP COLUMN [Weekday];      -- Executed
+ALTER TABLE spy DROP COLUMN [Week];         -- Executed
+ALTER TABLE spy DROP COLUMN [Month];        -- Executed
+ALTER TABLE spy DROP COLUMN [Year];         -- Executed
+
 -- Descriptive statistics for nflx table
 SELECT
     COUNT(*) AS total_rows,                                     -- 5522 total_rows
