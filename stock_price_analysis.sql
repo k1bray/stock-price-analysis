@@ -208,7 +208,7 @@ FROM
 
 -- Calculating the yearly return for each underlying
 -- *********A point to note is that the returns for 2002 and 2024 are only based on a partial year
-SELECT * FROM nflx;
+
 -- NFLX annual returns since 2002
 WITH YearlyPrices AS
     (
@@ -304,7 +304,7 @@ ORDER BY
 -- Calculate the current value of a $100 investment in NFLX on 2002-05-23
 SELECT
     ROUND((100 / first_price.[Close]) * last_price.[Close], 2) AS investment_value, -- $54056.70
-    ROUND(((100 / first_price.[Close]) * last_price.[Close] - 100) / 100 * 100, 1) AS percent_return    -- $53956.70
+    ROUND(((100 / first_price.[Close]) * last_price.[Close] - 100) / 100 * 100, 0) AS percent_return    -- 53957 %
 FROM
     (
         SELECT TOP 1
@@ -322,8 +322,8 @@ FROM
 
 -- Calculate the current value of a $100 investment in SPY on 2002-05-23
 SELECT
-    ROUND((100 / first_price.[Close]) * last_price.[Close], 2) AS investment_value, -- $690.30
-    ROUND(((100 / first_price.[Close]) * last_price.[Close] - 100) / 100 * 100, 1) AS percent_return
+    ROUND((100 / first_price.[Close]) * last_price.[Close], 2) AS investment_value,                         -- $690.30
+    ROUND(((100 / first_price.[Close]) * last_price.[Close] - 100) / 100 * 100, 0) AS percent_return        -- 590 %
 FROM
     (
         SELECT TOP 1
