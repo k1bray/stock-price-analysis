@@ -230,9 +230,9 @@ WITH YearlyPrices AS
     (
         SELECT
             yp.Year,                                                        -- year
-            CAST(nflx_start.[Close] AS DECIMAL(18, 2)) AS StartPrice,       -- earliest closing price of the year
-            CAST(nflx_end.[Close] AS DECIMAL(18, 2)) AS EndPrice,           -- latest closing price of the year
-            CAST(AVG(nflx.[Volume]) AS DECIMAL(18, 2)) AS AvgVolume         -- average volume
+            CAST(nflx_start.[Close] AS DECIMAL(18, 2)) AS nflxStartPrice,       -- earliest closing price of the year
+            CAST(nflx_end.[Close] AS DECIMAL(18, 2)) AS nflxEndPrice,           -- latest closing price of the year
+            CAST(AVG(nflx.[Volume]) AS DECIMAL(18, 2)) AS nflxAvgVolume         -- average volume
         FROM
             YearlyPrices yp
                 JOIN nflx AS nflx_start
@@ -249,10 +249,10 @@ WITH YearlyPrices AS
     )
 SELECT
     Year,
-    StartPrice,
-    EndPrice,
-    RTRIM(CAST(ROUND((((EndPrice - StartPrice) / StartPrice) * 100), 1) AS DECIMAL(18, 1))) AS PercentReturn,
-    ROUND(CAST(AvgVolume AS INT), 0) AS AVGVolume
+    nflxStartPrice,
+    nflxEndPrice,
+    RTRIM(CAST(ROUND((((nflxEndPrice - nflxStartPrice) / nflxStartPrice) * 100), 1) AS DECIMAL(18, 1))) AS nflxPercentReturn,
+    ROUND(CAST(nflxAvgVolume AS INT), 0) AS nflxAVGVolume
 FROM
     StartEndPrices
 ORDER BY
@@ -276,9 +276,9 @@ WITH YearlyPrices AS
     (
         SELECT
             yp.Year,                                                        -- year
-            CAST(spy_start.[Close] AS DECIMAL(18, 2)) AS StartPrice,        -- earliest closing price of the year
-            CAST(spy_end.[Close] AS DECIMAL(18, 2)) AS EndPrice,            -- latest closing price of the year
-            CAST(AVG(spy.[Volume]) AS DECIMAL(18, 2)) AS AvgVolume          -- average volume
+            CAST(spy_start.[Close] AS DECIMAL(18, 2)) AS spyStartPrice,        -- earliest closing price of the year
+            CAST(spy_end.[Close] AS DECIMAL(18, 2)) AS spyEndPrice,            -- latest closing price of the year
+            CAST(AVG(spy.[Volume]) AS DECIMAL(18, 2)) AS spyAvgVolume          -- average volume
         FROM
             YearlyPrices yp
                 JOIN spy AS spy_start
@@ -295,10 +295,10 @@ WITH YearlyPrices AS
     )
 SELECT
     Year,
-    StartPrice,
-    EndPrice,
-    RTRIM(CAST(ROUND((((EndPrice - StartPrice) / StartPrice) * 100), 1) AS DECIMAL(18, 1))) AS PercentReturn,
-    ROUND(CAST(AvgVolume AS INT), 0) AS AVGVolume
+    spyStartPrice,
+    spyEndPrice,
+    RTRIM(CAST(ROUND((((spyEndPrice - spyStartPrice) / spyStartPrice) * 100), 1) AS DECIMAL(18, 1))) AS spyPercentReturn,
+    ROUND(CAST(spyAvgVolume AS INT), 0) AS spyAVGVolume
 FROM
     StartEndPrices
 ORDER BY
