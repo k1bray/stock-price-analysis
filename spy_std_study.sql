@@ -24,8 +24,8 @@ FROM
     #DailyReturns;
 
 -- Verify the temp table
-SELECT *
-FROM #Statistics;
+-- SELECT *
+-- FROM #Statistics;
 
 -- Creating TradingRange and count days within one standard deviation
 SELECT
