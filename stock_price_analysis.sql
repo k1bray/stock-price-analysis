@@ -1,5 +1,8 @@
 USE stock_price_analysis;
 
+
+
+
 -- DATA PROFILING & CLEANING
 -- Initial Data Exploration and Profiling
 
@@ -132,7 +135,9 @@ DELETE FROM CTE WHERE row_num > 1;
 
 
 
--- Exploratory Data Analysis (EDA)
+
+
+-- EXPLORATORY DATA ANALYSIS (EDA)
 -- Summary Statistics nflx table
 SELECT 
     ROUND(AVG(CAST([Open] AS FLOAT)), 2) AS Avg_Open,           -- 140.53
@@ -192,7 +197,10 @@ WHERE [Date] > '2002-05-22';        -- limiting time period to match NFLX data;
 
 
 
--- Comparative Analysis
+
+
+
+-- COMPARATIVE ANALYSIS
 -- Compare Netflix’s performance with SPY over the same period
 
 -- Join with SPY ETF Data
@@ -204,9 +212,6 @@ FROM
     nflx n
     JOIN spy s 
         ON n.[Date] = s.[Date];
-
-
-
 
 
 -- Calculating the yearly return for each underlying
@@ -405,8 +410,4 @@ Compile your findings into a presentation format:
 Report: Write a detailed report with insights and visualizations.
 Dashboard: Create an interactive Power BI dashboard.
 Presentation: Prepare a PowerPoint presentation summarizing your analysis.
-*/
-/*
-By leveraging SQL for data processing and Excel or Power BI for visualization, you can create a comprehensive 
-data analysis project showcasing your SQL skills and your ability to interpret and visualize data effectively.
 */
