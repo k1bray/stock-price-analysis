@@ -1,9 +1,5 @@
 USE stock_price_analysis;
 
-
-
-
-
 -- DATA PROFILING & CLEANING
 -- Initial Data Exploration and Profiling
 
