@@ -180,16 +180,16 @@ WHERE [Date] > '2002-05-22';        -- limiting time period to match NFLX data;
 -- Historical volatility analysis for nflx table
 SELECT 
     [Date], 
-    ROUND([Close], 2) AS [close],
-    STDEV(CAST([Close] AS FLOAT)) OVER(ORDER BY Date ROWS BETWEEN 29 PRECEDING AND CURRENT ROW) AS Volatility_30
+    ROUND([Close], 2) AS nflx_close,
+    STDEV(CAST([Close] AS FLOAT)) OVER(ORDER BY Date ROWS BETWEEN 29 PRECEDING AND CURRENT ROW) AS nflx_Volatility_30
 FROM nflx
 WHERE [Date] <= '2024-04-30';       -- limiting time period to match SPY data;
 
 -- Historical volatility analysis for spy table
 SELECT 
-    CAST([Date] AS DATE) AS DateFormatted,
-    ROUND([Close], 2) AS [close],
-    STDEV(CAST([Close] AS FLOAT)) OVER(ORDER BY Date ROWS BETWEEN 29 PRECEDING AND CURRENT ROW) AS Volatility_30
+    [Date] AS [Date],
+    ROUND([Close], 2) AS spy_close,
+    STDEV(CAST([Close] AS FLOAT)) OVER(ORDER BY Date ROWS BETWEEN 29 PRECEDING AND CURRENT ROW) AS spy_Volatility_30
 FROM spy
 WHERE [Date] > '2002-05-22';        -- limiting time period to match NFLX data;
 
