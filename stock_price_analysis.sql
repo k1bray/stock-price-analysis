@@ -309,6 +309,7 @@ FROM
 ORDER BY
     Year;
 
+
 -- Calculate the current value of a $100 investment in NFLX on 2002-05-23
 SELECT
     ROUND((100 / first_price.[Close]) * last_price.[Close], 2) AS investment_value, -- $54056.70
