@@ -4,10 +4,7 @@ https://www.kaggle.com/datasets/mayankanand2701/netflix-stock-price-dataset
 
 https://www.kaggle.com/datasets/gkitchen/s-and-p-500-spy
 
-
-
-
-
+# Table of Contents
 [Summary of Project Intention](https://github.com/k1bray/stock-price-analysis/blob/main/README.md#summary-of-project-intention)
 
 [Dataset Examination and Profiling](https://github.com/k1bray/stock-price-analysis/blob/main/README.md#dataset-examination-and-profiling)
