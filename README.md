@@ -13,12 +13,12 @@ https://www.kaggle.com/datasets/gkitchen/s-and-p-500-spy
 
 [Recommendations and Possible Further Actions Based on Analysis]
 
-#Summary of Project Intention
+# Summary of Project Intention
 
-#Dataset Examination and Profiling
+# Dataset Examination and Profiling
 
-#Cleaning and Manipulation of Data
+# Cleaning and Manipulation of Data
 
-#Analysis and Discussion
+# Analysis and Discussion
 
-#Recommendations and Possible Further Actions Based on Analysis
+# Recommendations and Possible Further Actions Based on Analysis
