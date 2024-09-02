@@ -35,7 +35,8 @@ The NFLX data can be accessed [here](https://www.kaggle.com/datasets/mayankanand
 The SPY data can be accessed [here](https://www.kaggle.com/datasets/gkitchen/s-and-p-500-spy) and the dataset license can be viewed [here](https://www.apache.org/licenses/LICENSE-2.0).
 
 The tables used during this analysis had a similar format and consisted of quantitative, structed data with columns showing daily trading data for Date, Open, High, Low, Close, and Volume.  The SPY table contained additional columns parsing out the date components but were not used for the purposes of this project.
-The SQL code that was used during all phases of this project can be seen [here] 
+
+The SQL code that was used during all phases of this project can be seen [here](https://github.com/k1bray/stock-price-analysis/tree/main/SQL%20Files). 
 
 The schemas were checked for both tables and it was found that during the import process the datatypes for all columns in the NFLX table were set by default to varchar (50) and were adjusted accordingly.  The columns in the SPY table were imported using the proper datatypes and did not require any adjustment.
 While calculating descriptive statistics of both tables it was verified that they were properly limited to the same start and end dates, as well as the same number of rows.  Thereby ensuring the accuracy of the data being used for the sake of performance comparison.
