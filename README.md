@@ -13,7 +13,7 @@ https://www.kaggle.com/datasets/gkitchen/s-and-p-500-spy
 
 [Analysis and Discussion](https://github.com/k1bray/stock-price-analysis/blob/main/README.md#analysis-and-discussion)
 
-[Recommendations and Possible Further Actions Based on Analysis](https://github.com/k1bray/stock-price-analysis/blob/main/README.md#recommendations-and-possible-further-actions-based-on-analysis)
+[Conclusion and Possible Further Actions Based on Analysis](https://github.com/k1bray/stock-price-analysis/blob/main/README.md#conclusion-and-possible-further-actions-based-on-analysis)
 
 # Summary of Project Intention
 
@@ -134,4 +134,4 @@ To better assess the historical long-term performance of NFLX stock, the potenti
 For comparison, the same calculations were made using data from SPY with the same starting date and a hypothetical $100 investment. This investment would be worth approximately $690.30 as of April 30, 2024, representing a 590% appreciation in value. While NFLX shows impressive growth, it's important to remember the context of this analysis. SPY's performance reflects the overall market's growth during this period, showcasing a more typical investment experience.
 
 
-# Recommendations and Possible Further Actions Based on Analysis
+# Conclusion and Possible Further Actions Based on Analysis
