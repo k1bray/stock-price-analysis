@@ -79,7 +79,7 @@ Since no single indicator should be used in technical analysis as the sole basis
 ### The running historical volatility was calculated using a 30-day timeframe and charted.
 
 ![NFLX vs SPY with HV]( https://github.com/k1bray/stock-price-analysis/blob/main/Visuals/nflx_vs_spy_hv.png)
-Please click [here](https://github.com/k1bray/stock-price-analysis/tree/main/SQL%20Files) for an interactive version of the chart above.
+Please click [here](https://public.tableau.com/views/NFLXvsSPYwSMA/Dashboard1?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link) for an interactive version of the chart above.
 
 Historical volatility (HV) is a measure of the extent to which the price of an asset has fluctuated over a given time period (Investopedia.com).
 
