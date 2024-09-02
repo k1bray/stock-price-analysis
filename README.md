@@ -78,7 +78,7 @@ Since no single indicator should be used in technical analysis as the sole basis
 
 ### The running historical volatility was calculated using a 30-day timeframe and charted.
 
-![NFLX vs SPY with HV]( https://github.com/k1bray/stock-price-analysis/blob/main/Visuals/nflx_vs_spy_hv.png)
+![NFLX vs SPY with HV]( https://github.com/k1bray/stock-price-analysis/blob/main/Visuals/nflx_vs_spy_hv.png "NFLX vs SPY with HV")
 
 Please click [here]( https://public.tableau.com/app/profile/kevin.bray/viz/NFLXvsSPYwSMA/Dashboard1)  for an interactive version of the chart above.
 
