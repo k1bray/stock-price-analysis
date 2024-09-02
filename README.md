@@ -124,11 +124,13 @@ The annual percentage return was calculated for each year since the NFLX IPO.  A
 Please click [here]  for an interactive version of the chart above.
 
 The chart above highlights a trend towards greater stability in NFLX's annual percentage returns over the past decade compared to its earlier years. However, it's important to remember and re-state that past performance is not a guarantee of future results.
+
 While NFLX has historically delivered higher annual returns than SPY (as shown over their publicly traded lifetimes), SPY's returns appear to be more consistent, potentially reflecting the lower volatility that was discussed earlier in the report. However, traders/investors should always bear in mind that the stock market itself, even a broad index-tracking ETF like SPY, carries inherent risk that needs to be kept in context and properly respected.
 
 ### Hypothetical Investment
 
 To better assess the historical long-term performance of NFLX stock, the potential return was analyzed using a hypothetical $100 investment made on the IPO date, May 23, 2002 (split-adjusted). The results show that a $100 investment in NFLX on that date would be worth approximately $54,056.70 as of April 30, 2024, representing a significant gain of over 53,957%. This demonstrates the substantial long-term growth of NFLX stock over the past 22 years.
+
 For comparison, the same calculations were made using data from SPY with the same starting date and a hypothetical $100 investment. This investment would be worth approximately $690.30 as of April 30, 2024, representing a 590% appreciation in value. While NFLX shows impressive growth, it's important to remember the context of this analysis. SPY's performance reflects the overall market's growth during this period, showcasing a more typical investment experience.
 
 
