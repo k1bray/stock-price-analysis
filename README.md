@@ -80,7 +80,7 @@ Since no single indicator should be used in technical analysis as the sole basis
 
 ![NFLX vs SPY with HV]( https://github.com/k1bray/stock-price-analysis/blob/main/Visuals/nflx_vs_spy_hv.png "NFLX vs SPY with HV")
 
-Please click [here]( )  for an interactive version of the chart above.
+Please click [here](https://public.tableau.com/app/profile/kevin.bray/viz/NFLXvsSPYwHV/Dashboard1)  for an interactive version of the chart above.
 
 Historical volatility (HV) is a measure of the extent to which the price of an asset has fluctuated over a given time period (Investopedia.com).
 
@@ -126,7 +126,7 @@ The annual percentage return was calculated for each year since the NFLX IPO.  A
  
 
 ![NFLX vs SPY Annual % Return]( https://github.com/k1bray/stock-price-analysis/blob/main/Visuals/nflx_vs_spy_annual_pct_return.png)
-Please click [here]  for an interactive version of the chart above.
+Please click [here](https://public.tableau.com/app/profile/kevin.bray/viz/NFLXvsSPYannualreturn/Dashboard1) for an interactive version of the chart above.
 
 The chart above highlights a trend towards greater stability in NFLX's annual percentage returns over the past decade compared to its earlier years. However, it's important to remember and re-state that past performance is not a guarantee of future results.
 
