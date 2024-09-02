@@ -31,6 +31,7 @@ There were multiple tools used in the process of this analysis.  Using a server 
 ### Data Availability and License
 
 The NFLX data can be accessed [here](https://www.kaggle.com/datasets/mayankanand2701/netflix-stock-price-dataset) and the dataset license can be viewed [here].
+
 The SPY data can be accessed [here](https://www.kaggle.com/datasets/gkitchen/s-and-p-500-spy) and the dataset license can be viewed [here].
 
 The tables used during this analysis had a similar format and consisted of quantitative, structed data with columns showing daily trading data for Date, Open, High, Low, Close, and Volume.  The SPY table contained additional columns parsing out the date components but were not used for the purposes of this project.
