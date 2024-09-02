@@ -1,5 +1,4 @@
-<p align="center"><img src="
-https://github.com/k1bray/stock-price-analysis/blob/main/Visuals/netflix_white_background.jpg" /></p>
+<p align="center"><img src="https://github.com/k1bray/stock-price-analysis/blob/main/Visuals/netflix_white_background.jpg" /></p>
 
 # stock-price-analysis
 
