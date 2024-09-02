@@ -2,9 +2,9 @@
 
 # stock-price-analysis
 
-https://www.kaggle.com/datasets/mayankanand2701/netflix-stock-price-dataset
 
-https://www.kaggle.com/datasets/gkitchen/s-and-p-500-spy
+
+
 
 # Table of Contents
 [Summary of Project Intention](https://github.com/k1bray/stock-price-analysis/blob/main/README.md#summary-of-project-intention)
@@ -30,8 +30,8 @@ There were multiple tools used in the process of this analysis.  Using a server 
 
 ### Data Availability and License
 
-The NFLX data can be accessed [here] and the dataset license can be viewed [here].
-The SPY data can be accessed [here] and the dataset license can be viewed [here].
+The NFLX data can be accessed [here](https://www.kaggle.com/datasets/mayankanand2701/netflix-stock-price-dataset) and the dataset license can be viewed [here].
+The SPY data can be accessed [here](https://www.kaggle.com/datasets/gkitchen/s-and-p-500-spy) and the dataset license can be viewed [here].
 
 The tables used during this analysis had a similar format and consisted of quantitative, structed data with columns showing daily trading data for Date, Open, High, Low, Close, and Volume.  The SPY table contained additional columns parsing out the date components but were not used for the purposes of this project.
 The SQL code that was used during all phases of this project can be seen [here] 
