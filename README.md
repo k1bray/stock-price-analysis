@@ -42,8 +42,11 @@ Both tables were checked for duplicate rows based on the ‘Date’ column, and 
 # Cleaning and Manipulation of Data
 
 The name of the NFLX table was changed from ‘nflx_stock_price’ to simply ‘nflx’ to match the naming convention of the ‘spy’ table as well as to ease query writing.
+
 The columns in the NFLX table schema were adjusted to their proper datatypes.
+
 The ‘Adj Close’ column in the NFLX table was found to be identical with the ‘Close’ column and was removed from the table.
+
 The extra date-related columns in the SPY table were removed.
 
 # Analysis and Discussion
