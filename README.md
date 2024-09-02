@@ -17,7 +17,7 @@ The intended purpose of this project is to take a closer look at the traded pric
 
 ### Tools Used for Analysis
 
-There were multiple tools used in the process of this analysis.  Using a server on a local device, a database was created and facilitated through Microsoft SQL Server and manipulated through VSCode utilizing the T-SQL database language.  Microsoft Word was used as the main platform for writing and editing the report of the analysis.  Tableau Public Desktop was used to create the visuals.  GitHub Desktop and GitHub were used as a hosting source for the version control and final rendering of the project report for publication.
+There were multiple tools used in the process of this analysis.  Using a server on a local device, a database was created and facilitated through **Microsoft SQL Server** and manipulated through **VSCode** utilizing the **T-SQL** database language.  **Microsoft Word** was used as the main platform for writing and editing the report of the analysis.  **Tableau Public Desktop** was used to create the visuals.  **GitHub Desktop** and **GitHub** were used as a hosting source for the version control and final rendering of the project report for publication.
 
 
 # Dataset Examination and Profiling
