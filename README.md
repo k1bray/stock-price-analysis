@@ -94,12 +94,13 @@ Another function of SD that is useful for traders/investors is that it can be us
 The data shows that NFLX has historically traded within 1 standard deviation of its average price for a significant portion of the timeframes studied. This suggests some level of consistency that could be interpreted as having lower volatility, but it's important to remember that past performance isn't a guarantee of future results. High volatility can still occur within 1 SD.  However, the data shows that the daily mean returns were positive across all time periods considered.  This points toward a long-term upward trend (or, positive drift) in NFLX's price, which can be appealing for a buy-and-hold strategy.
 
 The results of an analysis of NFLX frequency of days trading within 1 SD are as follows:
-Since IPO = 81.4% of trading days
-Previous 6 months = 76.9% of trading days
-Previous 12 months = 77.9% of trading days
-Previous 24 months = 79.6% of trading days
-Previous 36 months = 83.2% of trading days
-Previous 48 months = 81.9% of trading days
+
+- Since IPO = 81.4% of trading days
+- Previous 6 months = 76.9% of trading days
+- Previous 12 months = 77.9% of trading days
+- Previous 24 months = 79.6% of trading days
+- Previous 36 months = 83.2% of trading days
+- Previous 48 months = 81.9% of trading days
 
 ### How often in a given timeframe does SPY trade within 1 SD?
 
