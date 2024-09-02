@@ -62,7 +62,7 @@ Some general exploratory data analysis was done by calculating summary statistic
 ### The 30-, 50-, and 200-day simple moving averages were calculated and charted.
 
 ![NFLX vs SPY with SMA]( https://github.com/k1bray/stock-price-analysis/blob/main/Visuals/nflx_vs_spy_sma.png)
-Please click [here]  for an interactive version of the chart above.
+Please click [here](https://public.tableau.com/app/profile/kevin.bray/viz/NFLXvsSPYwSMA/Dashboard1) for an interactive version of the chart above.
 
 A trader/investor can utilize a simple moving average (SMA) to make various decisions or determinations about an individual tradeable product, or even the overall market.  Moving averages of various time periods can be used to determine or verify trends, or potential changes in trends.  In very general terms, the trend is bullish if the values of the moving average are increasing while the traded values of the stock are higher than the moving average values, and bearish if the opposite is true.  However, as will be explained below, the length of the moving average period can be adjusted and needs to be considered within the appropriate context of the trading/investing goals and outlook held by the individual.
 
@@ -80,9 +80,7 @@ Since no single indicator should be used in technical analysis as the sole basis
 
 ![NFLX vs SPY with HV]( https://github.com/k1bray/stock-price-analysis/blob/main/Visuals/nflx_vs_spy_hv.png "NFLX vs SPY with HV")
 
-Please click [here]( https://public.tableau.com/app/profile/kevin.bray/viz/NFLXvsSPYwSMA/Dashboard1)  for an interactive version of the chart above.
-
-Please click <a class="here" href="https://public.tableau.com/app/profile/kevin.bray/viz/NFLXvsSPYwSMA/Dashboard1">View Tableau Dashboard</a> for an interactive version of the chart above.
+Please click [here]( )  for an interactive version of the chart above.
 
 Historical volatility (HV) is a measure of the extent to which the price of an asset has fluctuated over a given time period (Investopedia.com).
 
