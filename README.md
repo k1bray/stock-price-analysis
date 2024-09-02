@@ -61,18 +61,24 @@ Some general exploratory data analysis was done by calculating summary statistic
 Please click [here]  for an interactive version of the chart above.
 
 A trader/investor can utilize a simple moving average (SMA) to make various decisions or determinations about an individual tradeable product, or even the overall market.  Moving averages of various time periods can be used to determine or verify trends, or potential changes in trends.  In very general terms, the trend is bullish if the values of the moving average are increasing while the traded values of the stock are higher than the moving average values, and bearish if the opposite is true.  However, as will be explained below, the length of the moving average period can be adjusted and needs to be considered within the appropriate context of the trading/investing goals and outlook held by the individual.
+
 Simple moving averages can be used to determine levels of support and resistance for technical analysis of stock charts.  Stock trading values tend to “bounce” off SMA lines and act as either lower support in a bullish trend or upper resistance in a bearish trend.
+
 When multiple moving averages of different time frames are utilized, they can act as potential indicators for buy or sell signals in relation to changes in trend or price change momentum.  When a shorter-term SMA crosses above a longer-term SMA, this could be interpreted as a buy signal, or what is called a “Golden Cross”.  An example of a golden cross can be seen using the NFLX chart on 11/14/2023 when the 30-day SMA crossed over the 50-day SMA.  Conversely, a shorter-term SMA crossing below a longer-term SMA could be a sell signal, or what is referred to as a “Death Cross”.  An example of a death cross can be seen using the NFLX chart on 08/02/2019 when the 30-day, 50-day, and 200-day SMA all inverted.
+
 Crossing SMAs could also be applied to a situation where a trader wants to incorporate a stop-loss strategy.  This can be done on many modern trading platforms where a sell order could be triggered by a set of conditions being met, such as a short-term SMA crossing below a longer-term SMA.
+
 Moving averages of different time periods can be useful in different types of trading.  For example, using a 20- and 30-day SMA together can be useful for short-term swing trading, while a 50- and 200-day SMA can be used together for more longer-term trading.
+
 Since no single indicator should be used in technical analysis as the sole basis for either a buy or sell signal, moving averages can often act as confirmation signals when used in conjunction with other technical indicators.
 
 ### The running historical volatility was calculated using a 30-day timeframe and charted.
 
- 
 ![NFLX vs SPY with HV]( https://github.com/k1bray/stock-price-analysis/blob/main/Visuals/nflx_vs_spy_hv.png)
 Please click [here]  for an interactive version of the chart above.
-Historical volatility (HV) is a measure of the extent to which the price of an asset has fluctuated over a given time period (Investopedia.com ).
+
+Historical volatility (HV) is a measure of the extent to which the price of an asset has fluctuated over a given time period (Investopedia.com).
+
 The HV value is significant to trading and investing for several different reasons.  One way that it can be used is to assess the potential risk of an individual asset.  An asset with a higher HV value would be one that has historically shown a potential for higher price swings, which some traders/investors might view as having higher risk.  Conversely, an asset that has historically experienced smaller price swings would have a lower HV value and could be interpreted as having a lower risk level.  However, it should also be noted that some tradeable products will show swings in volatility as well as price.  Some stocks enter periods of lower HV that can precede a significant price move in reaction to a major news event, such as leading up to a corporate announcement before releasing an earnings report, announcement of an anticipated product launch, anticipated macroeconomic policy events, or FDA drug approval.  It should also be noted that the qualification of the concept of a security being considered either high or low risk is perspective-dependent and tied closely to the intentions and viewpoints of the individual investor/trader.  Different levels of perceived risk are appropriate for different types of trading/investing.  Stocks with higher HV can be attractive to short-term swing and day traders, while stocks with lower HV can be attractive to more conservative traders with a longer-term investment horizon.  In this way, HV values for a particular stock, or the overall market, can help traders/investors make informed decisions regarding strategy and outlook.
 HV, as a backward-looking metric of volatility, is different from Implied Volatility (IV) which is a forward-looking metric of volatility.  IV is used in the pricing of option contracts on equities and indices (Investopedia.com ).  However, the two can be compared to try and find instances of potential mispricing of options, which may be considered undervalued when HV is higher than IV and overvalued when the opposite is true.
 
