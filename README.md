@@ -28,8 +28,8 @@ There were multiple tools used in the process of this analysis.  Using a server 
 
 ### Data Availability and License
 
-The NFLX data can be accessed [here] and the dataset license can be viewed [here]
-The SPY data can be accessed [here] and the dataset license can be viewed [here]  
+The NFLX data can be accessed [here] and the dataset license can be viewed [here].
+The SPY data can be accessed [here] and the dataset license can be viewed [here].
 
 The tables used during this analysis had a similar format and consisted of quantitative, structed data with columns showing daily trading data for Date, Open, High, Low, Close, and Volume.  The SPY table contained additional columns parsing out the date components but were not used for the purposes of this project.
 The SQL code that was used during all phases of this project can be seen [here] 
