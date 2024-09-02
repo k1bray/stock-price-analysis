@@ -85,7 +85,7 @@ HV, as a backward-looking metric of volatility, is different from Implied Volati
 
 ### How often in a specified timeframe does NFLX trade within 1 SD?
 
-Standard deviation (SD) is a statistical measure of how spread-out data points are from the mean (average) of a dataset (investopedia.com ).  In terms of this study, the concept of SD is being used to measure how often a stock trades within a 1 SD range from its daily average in a specified amount of time.
+Standard deviation (SD) is a statistical measure of how spread-out data points are from the mean (average) of a dataset ([Investopedia.com](https://www.investopedia.com/terms/s/standarddeviation.asp)).  In terms of this study, the concept of SD is being used to measure how often a stock trades within a 1 SD range from its daily average in a specified amount of time.
 
 One function of SD is that it can be used as a measurement of volatility.  A stock that trades less often within 1 SD indicates that the stock is more volatile because it more often fluctuates further away from its average with larger price moves and swings.  Lower volatility stocks have higher instances of trading ranges closer to, or within 1 SD of, their averages.  The frequency of movement within 1 SD can be used as a tool to assess potential risk based on that measure of volatility.  Stocks that tend to fluctuate significantly and trade outside of 1 SD are seen as having higher volatility or carrying more risk.  As previously discussed, the perspective of risk is dependent upon the intentions and outlook of the individual trader/investor.  
 
