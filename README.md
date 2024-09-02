@@ -135,3 +135,5 @@ For comparison, the same calculations were made using data from SPY with the sam
 
 
 # Conclusion and Possible Further Actions Based on Analysis
+
+It's important to once again emphasize that past performance is not indicative of future results.  Netflix's historical growth trajectory may not be sustainable without continued innovation and adaptation.  To gain a deeper understanding of the company's potential, further analysis of both quantitative and qualitative factors regarding the company’s performance in the marketplace is recommended.
