@@ -107,12 +107,13 @@ The results of an analysis of NFLX frequency of days trading within 1 SD are as 
 The data shows that SPY has historically traded within 1 standard deviation of its average price for a similar or slightly smaller portion of the timeframes considered when compared to NFLX. While this suggests NFLX may have been statistically more consistent in terms of staying within 1 SD when compared to SPY, it's important to remember that both stocks and ETF’s can still experience significant price movements within that range.
 
 The results of an analysis of SPY frequency of days trading within 1 SD are as follows:
-Since NFLX IPO = 80.1% of trading days
-Previous 6 months = 66.7% of trading days
-Previous 12 months = 68.6% of trading days
-Previous 24 months = 71.9% of trading days
-Previous 36 months = 71.9% of trading days
-Previous 48 months = 72.7% of trading days
+
+- Since NFLX IPO = 80.1% of trading days
+- Previous 6 months = 66.7% of trading days
+- Previous 12 months = 68.6% of trading days
+- Previous 24 months = 71.9% of trading days
+- Previous 36 months = 71.9% of trading days
+- Previous 48 months = 72.7% of trading days
 
 ### Calculating Annual Returns
 
