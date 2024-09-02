@@ -1,5 +1,11 @@
 <p align="center"><img src="https://github.com/k1bray/stock-price-analysis/blob/main/Visuals/netflix_white_background.jpg" /></p>
 
+# Introduction
+Netflix began as an idea in 1997 by Reed Hastings and Marc Randolph that would give consumers the ability to rent DVDs through the mail via a website instead of having to go to a store.  Their website and business officially launched in 1998 with their subscription service coming soon after in 1999 that offered unlimited DVD rentals without due dates, late fees, or monthly rental limits.  The company was brought public on May 23, 2002, with an initial public offering (IPO) on NASDAQ for the ticker symbol: NFLX.  Innovative features to the user experience over the years, such as a personalized movie recommendation system based on customer’s movie ratings, and successfully transitioning the company’s focus to streaming services has helped to bolster revenue as well as the stock price to its current level.  
+
+### Disclaimer
+This report is for informational purposes only and should not be considered financial advice. The information presented is based on publicly available data and does not constitute a recommendation to buy or sell any securities, including NFLX stock. Investing involves inherent risks, and you should always conduct your own research and due diligence before making any investment decisions. Consider consulting with a qualified financial advisor to discuss your specific investment goals and risk tolerance.
+
 # Table of Contents
 [Summary of Project Intention](https://github.com/k1bray/stock-price-analysis/blob/main/README.md#summary-of-project-intention)
 
