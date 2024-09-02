@@ -26,6 +26,19 @@ There were multiple tools used in the process of this analysis.  Using a server 
 
 # Dataset Examination and Profiling
 
+### Data Availability and License
+
+The NFLX data can be accessed [here] and the dataset license can be viewed [here]
+The SPY data can be accessed [here] and the dataset license can be viewed [here]  
+
+The tables used during this analysis had a similar format and consisted of quantitative, structed data with columns showing daily trading data for Date, Open, High, Low, Close, and Volume.  The SPY table contained additional columns parsing out the date components but were not used for the purposes of this project.
+The SQL code that was used during all phases of this project can be seen [here] 
+
+The schemas were checked for both tables and it was found that during the import process the datatypes for all columns in the NFLX table were set by default to varchar (50) and were adjusted accordingly.  The columns in the SPY table were imported using the proper datatypes and did not require any adjustment.
+While calculating descriptive statistics of both tables it was verified that they were properly limited to the same start and end dates, as well as the same number of rows.  Thereby ensuring the accuracy of the data being used for the sake of performance comparison.
+Both tables were checked for any NULL values, and none were found.
+Both tables were checked for duplicate rows based on the ‘Date’ column, and none were found.
+
 # Cleaning and Manipulation of Data
 
 # Analysis and Discussion
